@@ -1,0 +1,302 @@
+// ============================================
+// 3CM Design System - Mixins
+// ============================================
+
+@use './variables' as vars;
+
+// --------------------------------------------
+// Responsive Breakpoints
+// --------------------------------------------
+
+@mixin mobile {
+    @media (max-width: #{vars.$breakpoint-mobile - 1px}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: vars.$breakpoint-mobile) and (max-width: #{vars.$breakpoint-tablet - 1px}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: vars.$breakpoint-tablet) {
+        @content;
+    }
+}
+
+@mixin desktop-lg {
+    @media (min-width: vars.$breakpoint-desktop) {
+        @content;
+    }
+}
+
+@mixin desktop-xl {
+    @media (min-width: vars.$breakpoint-xl) {
+        @content;
+    }
+}
+
+// Mobile-first approach
+@mixin from-tablet {
+    @media (min-width: vars.$breakpoint-mobile) {
+        @content;
+    }
+}
+
+@mixin from-desktop {
+    @media (min-width: vars.$breakpoint-tablet) {
+        @content;
+    }
+}
+
+// --------------------------------------------
+// Container
+// --------------------------------------------
+
+@mixin container {
+    width: 100%;
+    max-width: vars.$container-max-width;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: vars.$container-padding-mobile;
+    padding-right: vars.$container-padding-mobile;
+
+    @include from-tablet {
+        padding-left: vars.$container-padding;
+        padding-right: vars.$container-padding;
+    }
+}
+
+// --------------------------------------------
+// Animations
+// --------------------------------------------
+
+@mixin fade-in($duration: 0.6s, $delay: 0s) {
+    opacity: 0;
+    animation: fadeIn $duration ease-out $delay forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@mixin fade-in-up($duration: 0.6s, $delay: 0s, $distance: 30px) {
+    opacity: 0;
+    transform: translateY($distance);
+    transition: opacity $duration ease-out $delay, transform $duration ease-out $delay;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@mixin scale-in($duration: 0.3s, $delay: 0s) {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity $duration ease-out $delay, transform $duration ease-out $delay;
+
+    &.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@mixin slide-in-left($duration: 0.5s, $delay: 0s, $distance: 50px) {
+    opacity: 0;
+    transform: translateX(-$distance);
+    transition: opacity $duration ease-out $delay, transform $duration ease-out $delay;
+
+    &.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@mixin slide-in-right($duration: 0.5s, $delay: 0s, $distance: 50px) {
+    opacity: 0;
+    transform: translateX($distance);
+    transition: opacity $duration ease-out $delay, transform $duration ease-out $delay;
+
+    &.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// --------------------------------------------
+// Focus States
+// --------------------------------------------
+
+@mixin focus-visible {
+    &:focus-visible {
+        outline: 3px solid vars.$secondary-color;
+        outline-offset: 2px;
+    }
+}
+
+@mixin focus-ring {
+    transition: box-shadow vars.$transition-fast;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(vars.$secondary-color, 0.1);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(vars.$secondary-color, 0.3);
+    }
+}
+
+// --------------------------------------------
+// Hover Effects
+// --------------------------------------------
+
+@mixin hover-lift {
+    transition: transform vars.$transition-base, box-shadow vars.$transition-base;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: vars.$shadow-lg;
+    }
+
+    &:active {
+        transform: translateY(-2px);
+    }
+}
+
+@mixin hover-scale($scale: 1.05) {
+    transition: transform vars.$transition-base;
+
+    &:hover {
+        transform: scale($scale);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+// --------------------------------------------
+// Typography
+// --------------------------------------------
+
+@mixin heading-1 {
+    font-size: vars.$font-size-h1-mobile;
+    font-weight: vars.$font-weight-bold;
+    line-height: vars.$line-height-tight;
+    letter-spacing: -0.02em;
+
+    @include from-desktop {
+        font-size: vars.$font-size-h1;
+    }
+}
+
+@mixin heading-2 {
+    font-size: vars.$font-size-h2-mobile;
+    font-weight: vars.$font-weight-bold;
+    line-height: vars.$line-height-tight;
+    letter-spacing: -0.01em;
+
+    @include from-desktop {
+        font-size: vars.$font-size-h2;
+    }
+}
+
+@mixin heading-3 {
+    font-size: vars.$font-size-h3-mobile;
+    font-weight: vars.$font-weight-semibold;
+    line-height: vars.$line-height-normal;
+
+    @include from-desktop {
+        font-size: vars.$font-size-h3;
+    }
+}
+
+@mixin body-text {
+    font-size: vars.$font-size-body-mobile;
+    font-weight: vars.$font-weight-regular;
+    line-height: vars.$line-height-normal;
+
+    @include from-desktop {
+        font-size: vars.$font-size-body;
+    }
+}
+
+// --------------------------------------------
+// Utilities
+// --------------------------------------------
+
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin line-clamp($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+@mixin aspect-ratio($width, $height) {
+    aspect-ratio: #{$width} / #{$height};
+
+    @supports not (aspect-ratio: 1 / 1) {
+        &::before {
+            content: '';
+            float: left;
+            padding-top: calc(#{$height} / #{$width} * 100%);
+        }
+
+        &::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+    }
+}
+
+// --------------------------------------------
+// GPU Acceleration
+// --------------------------------------------
+
+@mixin gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+// --------------------------------------------
+// Reduced Motion
+// --------------------------------------------
+
+@mixin respect-motion-preference {
+    @media (prefers-reduced-motion: reduce) {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

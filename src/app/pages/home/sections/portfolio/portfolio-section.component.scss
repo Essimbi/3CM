@@ -1,0 +1,189 @@
+@use '../../../../../styles/variables' as vars;
+@use '../../../../../styles/mixins' as mix;
+
+.portfolio-section {
+    padding: vars.$spacing-5xl 0;
+    background: linear-gradient(180deg, vars.$background-light 0%, vars.$background-accent 100%);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(vars.$secondary-color, 0.06) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+}
+
+.portfolio-container {
+    @include mix.container;
+    position: relative;
+    z-index: 1;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: vars.$spacing-4xl;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include mix.from-desktop {
+        margin-bottom: vars.$spacing-5xl;
+    }
+}
+
+.eyebrow {
+    font-size: vars.$font-size-small;
+    font-weight: vars.$font-weight-semibold;
+    color: vars.$secondary-color;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: vars.$spacing-sm;
+}
+
+.section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: vars.$font-weight-bold;
+    color: vars.$text-dark;
+    margin-bottom: vars.$spacing-md;
+    line-height: 1.2;
+}
+
+.section-subtitle {
+    font-size: vars.$font-size-body;
+    color: vars.$text-muted;
+    line-height: vars.$line-height-relaxed;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-2xl;
+
+    @include mix.from-tablet {
+        grid-template-columns: repeat(2, 1fr);
+        gap: vars.$spacing-xl;
+    }
+
+    @include mix.from-desktop {
+        grid-template-columns: repeat(3, 1fr);
+        gap: vars.$spacing-2xl;
+    }
+}
+
+.project-card {
+    background: white;
+    border-radius: vars.$radius-xl;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all vars.$transition-base;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+        .project-image img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            opacity: 1;
+        }
+    }
+}
+
+.project-image {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: vars.$gray-100;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(vars.$primary-color, 0.7) 100%);
+        opacity: 0;
+        transition: opacity vars.$transition-base;
+        display: flex;
+        align-items: flex-end;
+        padding: vars.$spacing-lg;
+    }
+
+    .overlay-content {
+        width: 100%;
+    }
+
+    .category-badge {
+        display: inline-block;
+        padding: vars.$spacing-xs vars.$spacing-md;
+        background: vars.$secondary-color;
+        color: white;
+        font-size: vars.$font-size-small;
+        font-weight: vars.$font-weight-semibold;
+        border-radius: vars.$radius-full;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+}
+
+.project-content {
+    padding: vars.$spacing-xl;
+
+    h3 {
+        font-size: vars.$font-size-h3-mobile;
+        font-weight: vars.$font-weight-bold;
+        color: vars.$text-dark;
+        margin-bottom: vars.$spacing-sm;
+        line-height: 1.3;
+
+        @include mix.from-desktop {
+            font-size: vars.$font-size-h3;
+        }
+    }
+
+    p {
+        font-size: vars.$font-size-small;
+        color: vars.$text-muted;
+        line-height: vars.$line-height-relaxed;
+        margin-bottom: vars.$spacing-md;
+    }
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-xs;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: vars.$gray-100;
+    color: vars.$text-muted;
+    font-size: 12px;
+    font-weight: vars.$font-weight-medium;
+    border-radius: vars.$radius-full;
+    transition: all vars.$transition-base;
+
+    &:hover {
+        background: vars.$secondary-color;
+        color: white;
+    }
+}

@@ -1,0 +1,228 @@
+@use '../../../../styles/variables' as vars;
+@use '../../../../styles/mixins' as mix;
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: vars.$z-index-sticky;
+    transition: background-color vars.$transition-base, box-shadow vars.$transition-base;
+
+    &.scrolled {
+        background-color: rgba(vars.$primary-color, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: vars.$shadow-md;
+
+        .navbar-logo .logo-text {
+            color: vars.$text-light;
+        }
+
+        .nav-link {
+            color: vars.$text-light;
+        }
+
+        .phone-link {
+            color: vars.$text-light;
+        }
+    }
+}
+
+.navbar-container {
+    @include mix.container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.navbar-logo {
+    .logo-text {
+        font-size: 28px;
+        font-weight: vars.$font-weight-bold;
+        color: vars.$primary-color;
+        transition: color vars.$transition-base;
+    }
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: vars.$spacing-xl;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    font-size: vars.$font-size-body;
+    font-weight: vars.$font-weight-medium;
+    color: vars.$text-dark;
+    cursor: pointer;
+    transition: color vars.$transition-base;
+
+    &:hover {
+        color: vars.$secondary-color;
+    }
+
+    @include mix.focus-visible;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-lg;
+}
+
+.phone-link {
+    font-size: vars.$font-size-small;
+    color: vars.$text-dark;
+    font-weight: vars.$font-weight-medium;
+    transition: color vars.$transition-base;
+
+    &:hover {
+        color: vars.$secondary-color;
+    }
+}
+
+.btn-primary {
+    background-color: vars.$secondary-color;
+    color: vars.$text-light;
+    border: none;
+    padding: 12px 24px;
+    border-radius: vars.$radius-full;
+    font-size: vars.$font-size-body;
+    font-weight: vars.$font-weight-semibold;
+    cursor: pointer;
+    transition: transform vars.$transition-base, box-shadow vars.$transition-base;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(vars.$secondary-color, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    @include mix.focus-visible;
+}
+
+// Mobile Menu
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: vars.$spacing-sm;
+
+    span {
+        width: 25px;
+        height: 3px;
+        background-color: vars.$primary-color;
+        transition: transform vars.$transition-base, opacity vars.$transition-base;
+        border-radius: 2px;
+    }
+
+    &.active {
+        span:nth-child(1) {
+            transform: rotate(45deg) translateY(8px);
+        }
+
+        span:nth-child(2) {
+            opacity: 0;
+        }
+
+        span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-8px);
+        }
+    }
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 80px;
+    right: -100%;
+    width: 80%;
+    max-width: 400px;
+    height: calc(100vh - 80px);
+    background-color: vars.$background-light;
+    box-shadow: vars.$shadow-2xl;
+    transition: right vars.$transition-slow;
+    padding: vars.$spacing-xl;
+    overflow-y: auto;
+
+    &.open {
+        right: 0;
+    }
+}
+
+.mobile-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 vars.$spacing-2xl 0;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: vars.$spacing-md 0;
+    font-size: vars.$font-size-h4-mobile;
+    font-weight: vars.$font-weight-semibold;
+    color: vars.$text-dark;
+    border-bottom: 1px solid vars.$gray-200;
+    cursor: pointer;
+
+    &:hover {
+        color: vars.$secondary-color;
+    }
+}
+
+.mobile-menu-actions {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-md;
+}
+
+.phone-link-mobile {
+    text-align: center;
+    padding: vars.$spacing-md;
+    font-size: vars.$font-size-body;
+    font-weight: vars.$font-weight-medium;
+    color: vars.$text-dark;
+}
+
+.btn-primary-mobile {
+    width: 100%;
+    background-color: vars.$secondary-color;
+    color: vars.$text-light;
+    border: none;
+    padding: 16px 24px;
+    border-radius: vars.$radius-full;
+    font-size: vars.$font-size-body;
+    font-weight: vars.$font-weight-semibold;
+    cursor: pointer;
+}
+
+// Responsive
+.desktop-only {
+    display: none;
+
+    @include mix.from-desktop {
+        display: flex;
+    }
+}
+
+.mobile-only {
+    display: flex;
+
+    @include mix.from-desktop {
+        display: none;
+    }
+}
+
+@include mix.from-desktop {
+    .navbar-menu {
+        display: flex;
+    }
+}

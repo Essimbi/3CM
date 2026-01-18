@@ -1,0 +1,221 @@
+@use '../../../../../styles/variables' as vars;
+@use '../../../../../styles/mixins' as mix;
+
+.stats-section {
+    position: relative;
+    padding: clamp(vars.$spacing-4xl, 18vh, 128px) 0;
+    background: linear-gradient(180deg, #0b1f33 0%, #0d3f5c 50%, #0b1f33 100%);
+    color: vars.$text-light;
+    overflow: hidden;
+}
+
+.stats-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.stats-gridlines {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-size: 120px 120px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+
+    &--horizontal {
+        transform: rotate(2deg);
+    }
+
+    &--vertical {
+        transform: rotate(-1deg);
+    }
+}
+
+.stats-orb {
+    position: absolute;
+    width: clamp(220px, 35vw, 340px);
+    height: clamp(220px, 35vw, 340px);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.45;
+
+    &--left {
+        top: -10%;
+        left: -5%;
+        background: radial-gradient(circle, rgba(49, 163, 221, 0.55), transparent 60%);
+    }
+
+    &--right {
+        bottom: -18%;
+        right: -8%;
+        background: radial-gradient(circle, rgba(13, 92, 134, 0.5), transparent 60%);
+    }
+}
+
+.stats-container {
+    position: relative;
+    @include mix.container;
+    z-index: 1;
+}
+
+.stats-header {
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-md;
+    margin: 0 auto vars.$spacing-4xl;
+    text-align: center;
+
+    .stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: vars.$spacing-xs;
+        margin: 0 auto;
+        padding: vars.$spacing-xs vars.$spacing-sm;
+        border-radius: vars.$radius-full;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        font-size: vars.$font-size-small;
+        font-weight: vars.$font-weight-semibold;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: vars.$primary-color;
+        }
+    }
+
+    h2 {
+        font-family: vars.$font-family-heading;
+        font-size: clamp(32px, 4vw, 42px);
+        letter-spacing: -0.015em;
+        color: vars.$text-light;
+        text-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.8;
+    }
+}
+
+.stats-grid {
+    display: grid;
+    gap: vars.$spacing-2xl;
+
+    @include mix.from-tablet {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include mix.from-desktop {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: vars.$spacing-3xl;
+    }
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-md;
+    padding: vars.$spacing-2xl;
+    border-radius: vars.$radius-xl;
+    background: rgba(11, 31, 51, 0.45);
+    border: 1px solid rgba(49, 163, 221, 0.25);
+    box-shadow: 0 25px 60px rgba(11, 31, 51, 0.45);
+    backdrop-filter: blur(18px);
+    position: relative;
+    overflow: hidden;
+    transition: transform vars.$transition-base, border-color vars.$transition-base;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -60% auto auto -40%;
+        width: clamp(180px, 35vw, 280px);
+        height: clamp(180px, 35vw, 280px);
+        background: radial-gradient(circle, rgba(49, 163, 221, 0.28), transparent 70%);
+        opacity: 0.4;
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        border-color: rgba(49, 163, 221, 0.35);
+        box-shadow: 0 30px 70px rgba(13, 92, 134, 0.45);
+    }
+}
+
+.stat-orb {
+    position: absolute;
+    inset: auto auto -18% 50%;
+    width: clamp(160px, 27vw, 240px);
+    height: clamp(160px, 27vw, 240px);
+    transform: translateX(-50%);
+    background: radial-gradient(circle at 30% 30%, rgba(49, 163, 221, 0.28), transparent 65%);
+    opacity: 0.6;
+    transition: transform vars.$transition-base, opacity vars.$transition-base;
+
+    .stat-item:hover & {
+        transform: translateX(-50%) translateY(-10px);
+        opacity: 0.8;
+    }
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(49, 163, 221, 0.3), rgba(255, 255, 255, 0.18));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xs;
+
+    .stat-number {
+        font-size: clamp(52px, 6vw, 72px);
+        font-weight: vars.$font-weight-bold;
+        color: vars.$secondary-color;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: vars.$font-size-body;
+        font-weight: vars.$font-weight-semibold;
+        color: rgba(255, 255, 255, 0.92);
+    }
+
+    .stat-description {
+        font-size: vars.$font-size-small;
+        color: rgba(255, 255, 255, 0.62);
+        max-width: 260px;
+    }
+
+    .stat-meta {
+        margin-top: vars.$spacing-sm;
+        font-size: vars.$font-size-small;
+        color: rgba(166, 216, 246, 0.85);
+        font-weight: vars.$font-weight-medium;
+        letter-spacing: 0.02em;
+    }
+}
+
+@include mix.mobile {
+    .stats-section {
+        padding-top: vars.$spacing-4xl;
+        padding-bottom: vars.$spacing-4xl;
+    }
+
+    .stat-item {
+        padding: vars.$spacing-xl;
+    }
+}

@@ -1,1 +1,398 @@
-/* You can add global styles to this file, and also import other style files */
+// ============================================
+// 3CM Global Styles
+// ============================================
+
+// Import design system
+@use './styles/variables' as vars;
+@use './styles/mixins' as mix;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap');
+
+// ============================================
+// CSS Reset & Base Styles
+// ============================================
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: vars.$font-family-base;
+    font-size: vars.$font-size-body-mobile;
+    font-weight: vars.$font-weight-regular;
+    line-height: vars.$line-height-normal;
+    color: vars.$text-dark;
+    background-color: vars.$background-light;
+    overflow-x: hidden;
+
+    @include mix.from-desktop {
+        font-size: vars.$font-size-body;
+    }
+}
+
+// ============================================
+// Typography
+// ============================================
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: vars.$font-family-heading;
+    font-weight: vars.$font-weight-bold;
+    line-height: vars.$line-height-tight;
+    color: vars.$text-dark;
+    margin: 0;
+}
+
+h1 {
+    @include mix.heading-1;
+}
+
+h2 {
+    @include mix.heading-2;
+}
+
+h3 {
+    @include mix.heading-3;
+}
+
+p {
+    margin: 0;
+    @include mix.body-text;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color vars.$transition-base;
+
+    &:hover {
+        color: vars.$secondary-color;
+    }
+}
+
+// ============================================
+// Focus Styles (Accessibility)
+// ============================================
+
+:focus-visible {
+    outline: 3px solid vars.$secondary-color;
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid vars.$secondary-color;
+    outline-offset: 2px;
+}
+
+// ============================================
+// Skip Link (Accessibility)
+// ============================================
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: vars.$secondary-color;
+    color: vars.$text-light;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    z-index: vars.$z-index-tooltip;
+    font-weight: vars.$font-weight-semibold;
+    border-radius: vars.$radius-sm;
+
+    &:focus {
+        top: vars.$spacing-sm;
+        left: vars.$spacing-sm;
+    }
+}
+
+// ============================================
+// Utility Classes
+// ============================================
+
+// Container
+.container {
+    @include mix.container;
+}
+
+// Text Alignment
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+// Visibility
+.visually-hidden {
+    @include mix.visually-hidden;
+}
+
+// Spacing Utilities
+.mt-0 {
+    margin-top: 0;
+}
+
+.mt-1 {
+    margin-top: vars.$spacing-sm;
+}
+
+.mt-2 {
+    margin-top: vars.$spacing-md;
+}
+
+.mt-3 {
+    margin-top: vars.$spacing-lg;
+}
+
+.mt-4 {
+    margin-top: vars.$spacing-xl;
+}
+
+.mt-5 {
+    margin-top: vars.$spacing-2xl;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-1 {
+    margin-bottom: vars.$spacing-sm;
+}
+
+.mb-2 {
+    margin-bottom: vars.$spacing-md;
+}
+
+.mb-3 {
+    margin-bottom: vars.$spacing-lg;
+}
+
+.mb-4 {
+    margin-bottom: vars.$spacing-xl;
+}
+
+.mb-5 {
+    margin-bottom: vars.$spacing-2xl;
+}
+
+// ============================================
+// Animation Classes
+// ============================================
+
+.fade-in-up {
+    @include mix.fade-in-up;
+}
+
+.scale-in {
+    @include mix.scale-in;
+}
+
+// ============================================
+// Scroll Animation Utilities
+// ============================================
+
+// Stagger items - add this class to child elements
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Scroll reveal animations
+[appScrollReveal] {
+    &:not(.visible) {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+// Scroll animation types
+[appScrollAnimation] {
+    will-change: transform, opacity;
+}
+
+// Parallax smooth scrolling
+.parallax-section {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+// Floating animation for decorative elements
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+// Pulse animation
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+.pulse-animation {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+// Slide in from sides
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+// Gradient animation for backgrounds
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-animation {
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+}
+
+// ============================================
+// Reduced Motion (Accessibility)
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// ============================================
+// Print Styles
+// ============================================
+
+@media print {
+
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    img {
+        page-break-inside: avoid;
+    }
+
+    h2,
+    h3,
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
