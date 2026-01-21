@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { ScrollService } from '../../../../core/services/scroll.service';
@@ -116,13 +116,26 @@ import * as THREE from 'three';
           <div class="hero-showcase">
             <div class="showcase-image-wrapper" appScrollAnimation [animationType]="'fade-left'" [delay]="150" [duration]="800">
               <div class="showcase-image">
-                <img 
-                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&q=80" 
-                  alt="Équipe de communication en réunion stratégique"
-                  loading="lazy"
-                  class="showcase-main-image"
-                />
+                <div *ngFor="let slide of slides; let i = index" 
+                     class="carousel-slide" 
+                     [class.active]="i === currentSlide">
+                  <img 
+                    [src]="slide.image" 
+                    [alt]="slide.alt"
+                    loading="lazy"
+                    class="showcase-main-image"
+                  />
+                </div>
                 <div class="image-overlay"></div>
+                
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                  <button *ngFor="let slide of slides; let i = index" 
+                          (click)="goToSlide(i)"
+                          [class.active]="i === currentSlide"
+                          aria-label="Go to slide">
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -173,8 +186,17 @@ import * as THREE from 'three';
   `,
   styleUrl: './hero-section.component.scss'
 })
-export class HeroSectionComponent implements AfterViewInit, OnDestroy {
+export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('heroCanvas') heroCanvas?: ElementRef<HTMLCanvasElement>;
+
+  slides = [
+    { image: 'assets/services/corporate_hero.png', alt: 'Corporate Service' },
+    { image: 'assets/services/branding_hero.png', alt: 'Branding Service' },
+    { image: 'assets/services/digital_ai_hero.png', alt: 'Digital & AI Service' },
+    { image: 'assets/services/events_hero.png', alt: 'Events Service' }
+  ];
+  currentSlide = 0;
+  private slideInterval: any;
 
   private renderer?: THREE.WebGLRenderer;
   private scene?: THREE.Scene;
@@ -216,6 +238,12 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.startCarousel();
+    }
+  }
+
   ngAfterViewInit(): void {
     if (!this.isBrowser) {
       return;
@@ -225,6 +253,28 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
       this.initThreeScene();
       window.addEventListener('resize', this.handleResize, { passive: true });
     });
+  }
+
+  startCarousel() {
+    this.slideInterval = setInterval(() => {
+      this.nextSlide();
+    }, 4000);
+  }
+
+  nextSlide() {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  }
+
+  goToSlide(index: number) {
+    this.currentSlide = index;
+    this.resetCarouselTimer();
+  }
+
+  resetCarouselTimer() {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+      this.startCarousel();
+    }
   }
 
   scrollToContact() {
@@ -240,6 +290,9 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
     if (!this.isBrowser) {
       return;
     }

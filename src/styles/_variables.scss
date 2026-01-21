@@ -7,9 +7,10 @@
 // --------------------------------------------
 
 // Primary Colors
-$primary-color: #31a3dd;          // Bleu signature
-$secondary-color: #0d5c86;        // Bleu profond complémentaire
-$accent-color: #f0f7fb;           // Bleu très clair
+$primary-color: #31a3dd; // Bleu signature
+$secondary-color: #0d5c86; // Bleu profond complémentaire
+$accent-color: #f0f7fb; // Bleu très clair
+$primary-gradient: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
 
 // Text Colors
 $text-dark: #0b1f33;

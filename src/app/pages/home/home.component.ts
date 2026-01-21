@@ -19,7 +19,7 @@ import { CtaSectionComponent } from './sections/cta/cta-section.component';
     CtaSectionComponent
   ],
   template: `
-    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <!-- <a href="#main-content" class="skip-link">Aller au contenu principal</a> -->
     
     <main id="main-content" role="main">
       <app-hero-section />

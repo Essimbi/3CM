@@ -291,3 +291,48 @@
         padding: vars.$spacing-xl;
     }
 }
+.services-footer {
+    margin-top: clamp(64px, 12vh, 100px);
+    display: flex;
+    justify-content: center;
+}
+
+.btn-outline {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-md;
+    padding: 18px 48px;
+    border-radius: vars.$radius-full;
+    background: white;
+    color: vars.$primary-color;
+    font-weight: vars.$font-weight-bold;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid vars.$primary-color;
+    box-shadow: 0 10px 20px rgba(vars.$primary-color, 0.1);
+
+    span {
+        position: relative;
+        z-index: 1;
+    }
+
+    ng-icon {
+        transition: transform 0.4s ease;
+    }
+
+    &:hover {
+        background: vars.$primary-color;
+        color: white;
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(vars.$primary-color, 0.3);
+
+        ng-icon {
+            transform: translateX(5px) rotate(15deg);
+        }
+    }
+
+    &:active {
+        transform: translateY(-2px);
+    }
+}

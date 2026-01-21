@@ -8,11 +8,42 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     // Future routes
-    // { path: 'services', loadChildren: () => import('./pages/services/services.routes').then(m => m.SERVICES_ROUTES) },
-    // { path: 'portfolio', loadChildren: () => import('./pages/portfolio/portfolio.routes').then(m => m.PORTFOLIO_ROUTES) },
-    // { path: 'about', loadChildren: () => import('./pages/about/about.routes').then(m => m.ABOUT_ROUTES) },
-    // { path: 'team', loadChildren: () => import('./pages/team/team.routes').then(m => m.TEAM_ROUTES) },
-    // { path: 'contact', loadChildren: () => import('./pages/contact/contact.routes').then(m => m.CONTACT_ROUTES) },
+    {
+        path: 'services',
+        loadComponent: () => import('./pages/services/services.component').then(m => m.ServicesComponent)
+    },
+    {
+        path: 'services/corporate',
+        loadComponent: () => import('./pages/services/corporate/corporate.component').then(m => m.CorporateComponent)
+    },
+    {
+        path: 'services/branding',
+        loadComponent: () => import('./pages/services/branding/branding.component').then(m => m.BrandingComponent)
+    },
+    {
+        path: 'services/influence',
+        loadComponent: () => import('./pages/services/influence/influence.component').then(m => m.InfluenceComponent)
+    },
+    {
+        path: 'services/digital',
+        loadComponent: () => import('./pages/services/digital/digital.component').then(m => m.DigitalComponent)
+    },
+    {
+        path: 'services/events',
+        loadComponent: () => import('./pages/services/events/events.component').then(m => m.EventsComponent)
+    },
+    {
+        path: 'portfolio',
+        loadComponent: () => import('./pages/portfolio/portfolio.component').then(m => m.PortfolioComponent)
+    },
+    {
+        path: 'about',
+        loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent)
+    },
+    {
+        path: 'team',
+        loadComponent: () => import('./pages/team/team.component').then(m => m.TeamComponent)
+    },
     {
         path: '**',
         redirectTo: ''

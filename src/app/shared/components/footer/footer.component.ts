@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-footer',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <footer class="footer" role="contentinfo">
       <div class="footer-container">
         <div class="footer-grid">
           <!-- Column 1: About -->
           <div class="footer-column">
             <div class="footer-logo">
-              <span class="logo-text">3CM</span>
+              <img src="assets/logo.jpg" alt="3CM Logo" class="logo-img" />
             </div>
             <p class="footer-description">
               Agence de conseil en stratégie et communication qui accompagne les entreprises, 
@@ -46,12 +47,12 @@ import { CommonModule } from '@angular/common';
           <div class="footer-column">
             <h3 class="footer-title">Navigation</h3>
             <ul class="footer-links">
-              <li><a href="/">Accueil</a></li>
-              <li><a href="/services">Services</a></li>
-              <li><a href="/portfolio">Portfolio</a></li>
-              <li><a href="/about">À propos</a></li>
-              <li><a href="/team">Notre équipe</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li><a routerLink="/">Accueil</a></li>
+              <li><a routerLink="/services">Services</a></li>
+              <li><a routerLink="/portfolio">Portfolio</a></li>
+              <li><a routerLink="/about">À propos</a></li>
+              <li><a routerLink="/team">Notre équipe</a></li>
+              <li><a routerLink="/" fragment="contact">Contact</a></li>
             </ul>
           </div>
           
@@ -89,18 +90,15 @@ import { CommonModule } from '@angular/common';
         <!-- Bottom Bar -->
         <div class="footer-bottom">
           <p>&copy; 2026 3CM Communication et Technologies SARL. Tous droits réservés.</p>
-          <div class="footer-bottom-links">
+          <!-- <div class="footer-bottom-links">
             <a href="/mentions-legales">Mentions légales</a>
             <span>|</span>
             <a href="/confidentialite">Politique de confidentialité</a>
-            <span>|</span>
-            <a href="/sitemap">Plan du site</a>
-          </div>
-          <p class="footer-tagline">Fièrement conçu au Cameroun 🇨🇲</p>
+          </div> -->
         </div>
       </div>
     </footer>
   `,
-    styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss'
 })
 export class FooterComponent { }

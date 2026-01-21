@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ScrollRevealDirective } from '../../../../core/directives/scroll-reveal.directive';
 import { ScrollAnimationDirective } from '../../../../core/directives/scroll-animation.directive';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -28,7 +29,7 @@ interface Service {
 @Component({
   selector: 'app-services-section',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, ScrollAnimationDirective, NgIconComponent],
+  imports: [CommonModule, ScrollRevealDirective, ScrollAnimationDirective, NgIconComponent, RouterLink],
   providers: [
     provideIcons({
       heroAcademicCap,
@@ -90,6 +91,13 @@ interface Service {
             </div>
           </div>
         </div>
+
+        <!-- <div class="services-footer" appScrollAnimation [animationType]="'fade-up'" [delay]="400">
+          <a routerLink="/services" class="btn-outline">
+            <span>Découvrir toutes nos expertises</span>
+            <ng-icon name="heroBolt" size="18"></ng-icon>
+          </a>
+        </div> -->
       </div>
     </section>
   `,
@@ -98,85 +106,58 @@ interface Service {
 export class ServicesSectionComponent {
   services: Service[] = [
     {
-      title: 'Stratégie de Communication',
-      tagline: 'Positionnez votre marque avec clarté',
-      description: 'Analyse, planning stratégique et plateformes de marque pour guider vos décisions et fédérer vos publics.',
-      cta: 'Co-construire ma stratégie',
+      title: '3CM Corporate',
+      tagline: 'Conseil Stratégique & Management',
+      description: 'Audit, planning stratégique, intelligence économique et communication interne pour poser une vision d’ensemble.',
+      cta: 'Découvrir nos conseils',
       icon: 'heroSparkles',
       category: 'spotlight',
-      link: '/services/strategie'
+      link: '/services/corporate'
     },
     {
-      title: 'Gestion d\'Événements',
-      tagline: 'Des expériences qui marquent',
-      description: 'Conception, production et logistique d\'événements physiques, digitaux ou hybrides, de la scénographie à la diffusion.',
-      cta: 'Imaginer mon expérience',
-      icon: 'heroMegaphone',
-      category: 'spotlight',
-      link: '/services/evenements'
-    },
-    {
-      title: 'Relations Publiques & Presse',
-      tagline: 'Amplifiez votre influence',
-      description: 'Gestion des relations médias, influence et communication de crise pour renforcer votre crédibilité et visibilité.',
-      cta: 'Activer mes relations presse',
-      icon: 'heroChartBar',
-      category: 'spotlight',
-      link: '/services/relations-presse'
-    },
-    {
-      title: 'Branding & Identité',
-      tagline: '',
-      description: '',
-      cta: 'Créer mon identité',
+      title: '3CM Branding',
+      tagline: 'Marketing, Publicité & Design',
+      description: 'Maximisez vos ventes et visez le leadership par une identité forte et des campagnes publicitaires percutantes.',
+      cta: 'Forger mon image',
       icon: 'heroSwatch',
-      category: 'core',
+      category: 'spotlight',
       link: '/services/branding'
     },
     {
-      title: 'Production Multimédia',
-      tagline: '',
-      description: '',
-      cta: 'Produire du contenu',
-      icon: 'heroPhoto',
-      category: 'core',
-      link: '/services/multimedia'
+      title: '3CM Influence',
+      tagline: 'Relations Médias & Presse',
+      description: 'Gestion de réputation, média-training et communication de crise pour amplifier votre influence.',
+      cta: 'Activer mon influence',
+      icon: 'heroChartBar',
+      category: 'spotlight',
+      link: '/services/influence'
     },
     {
-      title: 'Campagnes Média',
-      tagline: '',
-      description: '',
-      cta: 'Amplifier mon message',
-      icon: 'heroBolt',
-      category: 'core',
-      link: '/services/campagnes'
-    },
-    {
-      title: 'Marketing & Activation',
-      tagline: '',
-      description: '',
-      cta: 'Activer ma campagne',
-      icon: 'heroCursorArrowRays',
-      category: 'core',
-      link: '/services/marketing'
-    },
-    {
-      title: 'Édition & Print',
-      tagline: '',
-      description: '',
-      cta: 'Concevoir mes supports',
-      icon: 'heroAcademicCap',
-      category: 'core',
-      link: '/services/edition'
-    },
-    {
-      title: 'Digital & Web',
-      tagline: '',
-      description: '',
-      cta: 'Développer ma présence',
+      title: '3CM Digital',
+      tagline: 'Stratégie & Création Web',
+      description: 'Sites internet, SEO, E-réputation et transformation digitale pour exister avec force sur le web.',
+      cta: 'Démarrer ma transition',
       icon: 'heroGlobeAlt',
       category: 'core',
       link: '/services/digital'
+    },
+    {
+      title: 'Adrénaline (IA)',
+      tagline: 'L’Agence IA qui booste votre créativité',
+      description: 'Génération visuelle, automation ChatGPT et personnalités virtuelles pour le futur de votre communication.',
+      cta: 'Explorer le futur',
+      icon: 'heroBolt',
+      category: 'core',
+      link: '/services/digital'
+    },
+    {
+      title: '3CM Events',
+      tagline: 'Expériences & Production',
+      description: 'Conception et réalisation technique de séminaires, congrès et opérations grand public d\'envergure.',
+      cta: 'Imaginer mon event',
+      icon: 'heroMegaphone',
+      category: 'core',
+      link: '/services/events'
     }
   ];
 
