@@ -19,7 +19,7 @@ import { heroChevronRight, heroNewspaper, heroMicrophone, heroExclamationTriangl
     })
   ],
   template: `
-    <div class="service-page">
+    <div class="service-page mt-4">
       <header class="service-header influence">
         <div class="header-overlay"></div>
         <div class="container">

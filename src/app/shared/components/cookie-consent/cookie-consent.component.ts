@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'app-cookie-consent',
@@ -25,26 +25,34 @@ import { CommonModule } from '@angular/common';
     styleUrl: './cookie-consent.component.scss'
 })
 export class CookieConsentComponent implements OnInit {
+    private platformId = inject(PLATFORM_ID);
     isVisible = signal(false);
 
     ngOnInit() {
-        // Check if user has already made a choice
-        const consent = localStorage.getItem('cookieConsent');
-        if (!consent) {
-            // Small delay for smooth entrance
-            setTimeout(() => {
-                this.isVisible.set(true);
-            }, 1000);
+        // Only run in browser, not in SSR
+        if (isPlatformBrowser(this.platformId)) {
+            // Check if user has already made a choice
+            const consent = localStorage.getItem('cookieConsent');
+            if (!consent) {
+                // Small delay for smooth entrance
+                setTimeout(() => {
+                    this.isVisible.set(true);
+                }, 1000);
+            }
         }
     }
 
     accept() {
-        localStorage.setItem('cookieConsent', 'accepted');
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('cookieConsent', 'accepted');
+        }
         this.close();
     }
 
     refuse() {
-        localStorage.setItem('cookieConsent', 'refused');
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('cookieConsent', 'refused');
+        }
         this.close();
     }
 

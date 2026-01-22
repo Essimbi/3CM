@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ScrollRevealDirective } from '../../../../core/directives/scroll-reveal.directive';
 import { ScrollAnimationDirective } from '../../../../core/directives/scroll-animation.directive';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -13,7 +12,8 @@ import {
   heroMegaphone,
   heroPhoto,
   heroSparkles,
-  heroSwatch
+  heroSwatch,
+  heroBuildingOffice2
 } from '@ng-icons/heroicons/outline';
 
 interface Service {
@@ -29,7 +29,7 @@ interface Service {
 @Component({
   selector: 'app-services-section',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, ScrollAnimationDirective, NgIconComponent, RouterLink],
+  imports: [CommonModule, ScrollRevealDirective, ScrollAnimationDirective, NgIconComponent],
   providers: [
     provideIcons({
       heroAcademicCap,
@@ -40,7 +40,8 @@ interface Service {
       heroMegaphone,
       heroPhoto,
       heroSparkles,
-      heroSwatch
+      heroSwatch,
+      heroBuildingOffice2
     })
   ],
   template: `
@@ -158,6 +159,15 @@ export class ServicesSectionComponent {
       icon: 'heroMegaphone',
       category: 'core',
       link: '/services/events'
+    },
+    {
+      title: 'Aménagement (Workspace)',
+      tagline: 'Design & Ergonomie',
+      description: 'Conception d’espaces de travail inspirants et fonctionnels pour booster la productivité et le bien-être.',
+      cta: 'Repenser mes bureaux',
+      icon: 'heroBuildingOffice2',
+      category: 'core',
+      link: '/services/workspace'
     }
   ];
 

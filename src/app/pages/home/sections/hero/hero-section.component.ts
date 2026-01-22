@@ -59,7 +59,7 @@ import * as THREE from 'three';
             </h1>
 
             <p class="hero-subheadline" appScrollAnimation [animationType]="'fade-up'" [delay]="200" [duration]="800">
-              Agence conseil en stratégie et communication qui orchestre campagnes, événements et
+              Agence de conseil en stratégie de communication et marketing qui orchestre campagnes, événements et
               expériences digitales pour faire rayonner les marques ambitieuses.
             </p>
 

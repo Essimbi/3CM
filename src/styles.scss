@@ -6,7 +6,9 @@
 @use './styles/variables' as vars;
 @use './styles/mixins' as mix;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap');
+// Use system fonts as fallback instead of relying on Google Fonts
+// This prevents build failures due to network issues
+// @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap');
 
 // ============================================
 // CSS Reset & Base Styles

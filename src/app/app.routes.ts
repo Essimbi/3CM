@@ -33,6 +33,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/services/events/events.component').then(m => m.EventsComponent)
     },
     {
+        path: 'services/workspace',
+        loadComponent: () => import('./pages/services/workspace/workspace.component').then(m => m.WorkspaceComponent)
+    },
+    {
         path: 'portfolio',
         loadComponent: () => import('./pages/portfolio/portfolio.component').then(m => m.PortfolioComponent)
     },
