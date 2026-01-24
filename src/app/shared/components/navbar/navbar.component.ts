@@ -108,7 +108,7 @@ import {
 
           <li><a routerLink="/" fragment="portfolio" (click)="scrollTo('portfolio')" class="nav-link">Portfolio</a></li>
           <li><a routerLink="/about" routerLinkActive="active" class="nav-link">À propos</a></li>
-          <li><a routerLink="/team" routerLinkActive="active" class="nav-link">Équipe</a></li>
+          
           <li><a routerLink="/" fragment="contact" (click)="scrollTo('contact')" class="nav-link">Contact</a></li>
         </ul>
         

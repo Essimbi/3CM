@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronRight, heroSwatch, heroSpeakerWave, heroPaintBrush, heroRocketLaunch, heroCube } from '@ng-icons/heroicons/outline';
+import { CtaSectionComponent } from '../../../pages/home/sections/cta/cta-section.component';
 
 @Component({
   selector: 'app-branding',
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent, CtaSectionComponent],
   providers: [
     provideIcons({
       heroChevronRight,
@@ -114,6 +115,8 @@ import { heroChevronRight, heroSwatch, heroSpeakerWave, heroPaintBrush, heroRock
           </div>
         </div>
       </section>
+
+      <app-cta-section></app-cta-section>
     </div>
   `,
   styles: [`

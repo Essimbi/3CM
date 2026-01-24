@@ -1,0 +1,224 @@
+<div class="about-page">
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="hero-background" aria-hidden="true">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
+      <div class="hero-gradient"></div>
+    </div>
+    <div class="hero-container">
+      <div class="hero-grid">
+        <div class="hero-content" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+          <span class="hero-badge">
+            <ng-icon name="heroSparkles" size="18"></ng-icon>
+            À Propos de 3CM
+          </span>
+          <h1 class="hero-title">Nous donnons <span class="highlight">vie</span> à vos projets de communication</h1>
+          <p class="hero-subtitle">
+            Depuis 8 ans, 3CM orchestre des stratégies de communication intégrées pour les marques ambitieuses.
+            Conseil, création, production et activation : une approche 360° qui aligne émotion, impact business et rayonnement médiatique.
+          </p>
+          <div class="hero-cta">
+            <button class="btn-primary">
+              <span>Démarrer un projet</span>
+              <ng-icon name="heroRocketLaunch" size="20"></ng-icon>
+            </button>
+            <button class="btn-secondary">
+              <span>Nos services</span>
+              <ng-icon name="heroArrowTrendingUp" size="20"></ng-icon>
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual" appScrollReveal [delay]="200">
+          <div class="hero-image-container">
+            <img 
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=600&fit=crop" 
+              alt="Équipe créative en réunion" 
+              class="hero-image"
+            />
+            <div class="image-overlay"></div>
+            <div class="floating-card card-1">
+              <div class="card-icon">
+                <ng-icon name="heroCheckCircle" size="20"></ng-icon>
+              </div>
+              <span>Stratégie</span>
+            </div>
+            <div class="floating-card card-2">
+              <div class="card-icon">
+                <ng-icon name="heroSparkles" size="20"></ng-icon>
+              </div>
+              <span>Création</span>
+            </div>
+            <div class="floating-card card-3">
+              <div class="card-icon">
+                <ng-icon name="heroRocketLaunch" size="20"></ng-icon>
+              </div>
+              <span>Activation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="story-section">
+    <div class="story-container">
+      <div class="story-grid">
+        <div class="story-content" appScrollReveal>
+          <span class="section-label">Notre Histoire</span>
+          <h2>Une passion pour la communication, un engagement pour l'excellence</h2>
+          <p>
+            3CM est née d'une conviction simple : la communication n'est pas un coût, c'est un investissement stratégique.
+            Fondée au Cameroun et rayonnant sur 12 territoires, notre agence a grandi en accompagnant des institutions,
+            des acteurs financiers, des scale-ups et des industries créatives à travers des transformations ambitieuses.
+          </p>
+          <p>
+            Chaque projet est une opportunité de prouver que l'excellence stratégique, la créativité débridée et l'exécution
+            rigoureuse peuvent coexister. Nous ne sommes pas juste une agence : nous sommes des partenaires de croissance.
+          </p>
+          <div class="story-stats">
+            <div class="stat-item" appScrollReveal>
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Projets orchestrés</span>
+            </div>
+            <div class="stat-item" appScrollReveal [delay]="100">
+              <span class="stat-number">100+</span>
+              <span class="stat-label">Clients accompagnés</span>
+            </div>
+            <div class="stat-item" appScrollReveal [delay]="200">
+              <span class="stat-number">12</span>
+              <span class="stat-label">Territoires activés</span>
+            </div>
+          </div>
+        </div>
+        <div class="story-visual" appScrollReveal [delay]="150">
+          <div class="visual-card">
+            <div class="visual-shine"></div>
+            <img 
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop" 
+              alt="Collaboration d'équipe" 
+              class="story-image"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <div class="values-container">
+      <div class="values-header" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <span class="section-label">Nos Valeurs</span>
+        <h2>Ce qui nous guide au quotidien</h2>
+      </div>
+      <div class="values-grid">
+        <div *ngFor="let value of values; let i = index" class="value-card" appScrollReveal [delay]="i * 100">
+          <div class="value-icon">
+            <ng-icon [name]="value.icon" size="32"></ng-icon>
+          </div>
+          <h3>{{ value.title }}</h3>
+          <p>{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach Section -->
+  <section class="approach-section">
+    <div class="approach-container">
+      <div class="approach-header" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <span class="section-label">Notre Approche</span>
+        <h2>Une méthodologie intégrée et éprouvée</h2>
+        <p>Nous orchestrons vos projets en 4 phases clés, du diagnostic à l'activation mesurable.</p>
+      </div>
+      <div class="approach-content">
+        <div class="approach-timeline">
+          <div *ngFor="let step of approachSteps; let i = index" class="timeline-item" appScrollReveal [delay]="i * 120">
+            <div class="timeline-marker">
+              <span class="marker-number">{{ i + 1 }}</span>
+            </div>
+            <div class="timeline-content">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.description }}</p>
+              <ul class="step-details">
+                <li *ngFor="let detail of step.details">
+                  <ng-icon name="heroCheckCircle" size="16"></ng-icon>
+                  {{ detail }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="approach-image" appScrollReveal [delay]="300">
+          <img 
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=600&fit=crop" 
+            alt="Processus de travail" 
+            class="process-image"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="team-container">
+      <div class="team-header" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <span class="section-label">Notre Équipe</span>
+        <h2>Une équipe pluridisciplinaire et passionnée</h2>
+        <p>Des experts en stratégie, création, production et activation qui travaillent ensemble pour votre succès.</p>
+      </div>
+      <div class="team-grid">
+        <div *ngFor="let member of teamMembers; let i = index" class="team-card" appScrollReveal [delay]="i * 80">
+          <div class="team-card-shine"></div>
+          <div class="team-icon">
+            <ng-icon [name]="member.icon" size="28"></ng-icon>
+          </div>
+          <h3>{{ member.role }}</h3>
+          <p class="team-expertise">{{ member.expertise }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <div class="timeline-container">
+      <div class="timeline-header" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <span class="section-label">Notre Évolution</span>
+        <h2>8 ans d'excellence et d'innovation</h2>
+      </div>
+      <div class="milestones">
+        <div *ngFor="let milestone of milestones; let i = index" class="milestone" appScrollReveal [delay]="i * 100">
+          <div class="milestone-marker"></div>
+          <div class="milestone-content">
+            <span class="milestone-year">{{ milestone.year }}</span>
+            <h3>{{ milestone.title }}</h3>
+            <p>{{ milestone.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="about-cta">
+    <div class="cta-background" aria-hidden="true">
+      <div class="cta-orb orb-1"></div>
+      <div class="cta-orb orb-2"></div>
+    </div>
+    <div class="cta-container">
+      <div class="cta-content" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <h2>Prêt à transformer votre communication ?</h2>
+        <p>Découvrez comment 3CM peut orchestrer votre succès.</p>
+        <button class="cta-button">
+          <span>Démarrer un projet</span>
+          <ng-icon name="heroRocketLaunch" size="20"></ng-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

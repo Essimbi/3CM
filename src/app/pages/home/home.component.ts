@@ -4,7 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { HeroSectionComponent } from './sections/hero/hero-section.component';
 import { ServicesSectionComponent } from './sections/services/services-section.component';
 import { PortfolioSectionComponent } from './sections/portfolio/portfolio-section.component';
-// import { TrustSectionComponent } from './sections/trust/trust-section.component';
+import { TrustSectionComponent } from './sections/trust/trust-section.component';
 import { StatsSectionComponent } from './sections/stats/stats-section.component';
 import { CtaSectionComponent } from './sections/cta/cta-section.component';
 
@@ -16,7 +16,7 @@ import { CtaSectionComponent } from './sections/cta/cta-section.component';
     HeroSectionComponent,
     ServicesSectionComponent,
     PortfolioSectionComponent,
-    // TrustSectionComponent,
+    TrustSectionComponent,
     StatsSectionComponent,
     CtaSectionComponent
   ],
@@ -27,7 +27,7 @@ import { CtaSectionComponent } from './sections/cta/cta-section.component';
       <app-hero-section />
       <app-services-section />
       <app-portfolio-section />
-      <!-- <app-trust-section /> -->
+      <app-trust-section />
       <app-stats-section />
       <app-cta-section />
     </main>

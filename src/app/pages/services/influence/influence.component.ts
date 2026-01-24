@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronRight, heroNewspaper, heroMicrophone, heroExclamationTriangle, heroScale, heroBanknotes, heroUsers } from '@ng-icons/heroicons/outline';
+import { CtaSectionComponent } from '../../../pages/home/sections/cta/cta-section.component';
 
 @Component({
   selector: 'app-influence',
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent, CtaSectionComponent],
   providers: [
     provideIcons({
       heroChevronRight,
@@ -115,6 +116,8 @@ import { heroChevronRight, heroNewspaper, heroMicrophone, heroExclamationTriangl
           </div>
         </div>
       </section>
+
+      <app-cta-section></app-cta-section>
     </div>
   `,
   styles: [`

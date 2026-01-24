@@ -420,7 +420,7 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, vars.$secondary-color 0%, darken(vars.$secondary-color, 10%) 100%);
+    background: linear-gradient(135deg, vars.$secondary-color 0%, #0a4a6b 100%);
     color: vars.$text-light;
     border: none;
     padding: 14px 28px;
