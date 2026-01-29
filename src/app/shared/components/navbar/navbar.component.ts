@@ -106,7 +106,7 @@ import {
             </div>
           </li>
 
-          <li><a routerLink="/" fragment="portfolio" (click)="scrollTo('portfolio')" class="nav-link">Portfolio</a></li>
+          <li><a routerLink="/portfolio" class="nav-link">Portfolio</a></li>
           <li><a routerLink="/about" routerLinkActive="active" class="nav-link">À propos</a></li>
           
           <li><a routerLink="/" fragment="contact" (click)="scrollTo('contact')" class="nav-link">Contact</a></li>
@@ -158,7 +158,7 @@ import {
             </div>
           </li>
 
-          <li><a routerLink="/" fragment="portfolio" (click)="scrollToAndClose('portfolio')" class="mobile-nav-link">Portfolio</a></li>
+          <li><a routerLink="/portfolio"  class="mobile-nav-link">Portfolio</a></li>
           <li><a routerLink="/about" (click)="toggleMobileMenu()" class="mobile-nav-link">À propos</a></li>
           <li><a routerLink="/team" (click)="toggleMobileMenu()" class="mobile-nav-link">Équipe</a></li>
           <li><a routerLink="/" fragment="contact" (click)="scrollToAndClose('contact')" class="mobile-nav-link">Contact</a></li>
