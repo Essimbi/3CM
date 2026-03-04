@@ -1,0 +1,427 @@
+<main class="contact-page">
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="contact-hero">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-particles">
+      @for (p of [1,2,3,4,5,6]; track p) {
+      <div class="particle" [attr.data-index]="p"></div>
+      }
+    </div>
+    <div class="container">
+      <div class="hero-content" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
+        <span class="hero-tag">Partenariat & Collaboration</span>
+        <h1 class="hero-title">
+          Construisons ensemble<br>
+          <span class="gradient-text">votre prochain succès</span>
+        </h1>
+        <p class="hero-subtitle">
+          Décrivez votre projet, et notre équipe d'experts vous contactera sous 24h avec
+          une stratégie personnalisée.
+        </p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-value">100+</span><span class="stat-label">Clients</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-value">92%</span><span class="stat-label">Satisfaction</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-value">24h</span><span class="stat-label">Réponse</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f7fa" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT INFO SECTION ===== -->
+  <section class="contact-info-section">
+    <div class="container">
+      <div class="contact-info-grid">
+
+        <!-- Contact Cards -->
+        <div class="info-cards" appScrollReveal>
+          <div class="info-card" appScrollAnimation [animationType]="'fade-up'" [duration]="600" [delay]="0">
+            <div class="info-icon">
+              <ng-icon name="heroMapPin" size="24"></ng-icon>
+            </div>
+            <div class="info-content">
+              <h3>Cameroun</h3>
+              <p>54, rue 6085 – Bastos<br>Yaoundé, Cameroun</p>
+              <a href="tel:+237696805074">+237 696 805 074</a>
+            </div>
+          </div>
+
+          <div class="info-card" appScrollAnimation [animationType]="'fade-up'" [duration]="600" [delay]="100">
+            <div class="info-icon">
+              <ng-icon name="heroMapPin" size="24"></ng-icon>
+            </div>
+            <div class="info-content">
+              <h3>France</h3>
+              <p>269 Av. Général de Gaulle<br>94170 Le Perreux-sur-Marne</p>
+              <a href="tel:+33634208368">+33 6 34 20 83 68</a>
+            </div>
+          </div>
+
+          <div class="info-card" appScrollAnimation [animationType]="'fade-up'" [duration]="600" [delay]="200">
+            <div class="info-icon">
+              <ng-icon name="heroEnvelope" size="24"></ng-icon>
+            </div>
+            <div class="info-content">
+              <h3>Email</h3>
+              <a href="mailto:info@3-c-m.com">info&#64;3-c-m.com</a>
+              <span>Réponse sous 24h</span>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="social-card" appScrollAnimation [animationType]="'fade-up'" [duration]="600" [delay]="300">
+            <h3>Suivez-nous</h3>
+            <div class="social-links">
+              <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="social-btn">
+                <ng-icon name="simpleFacebook" size="20"></ng-icon>
+              </a>
+              <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="social-btn">
+                <ng-icon name="simpleInstagram" size="20"></ng-icon>
+              </a>
+              <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" class="social-btn">
+                <ng-icon name="bootstrapLinkedin" size="20"></ng-icon>
+              </a>
+              <a href="https://twitter.com" target="_blank" aria-label="X" class="social-btn">
+                <ng-icon name="simpleX" size="20"></ng-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        <iframe class="map-container" appScrollAnimation [animationType]="'fade-left'" [duration]="800" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980.5903154265156!2d11.500126375874098!3d3.8976130480941347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x108bcfd30309d827%3A0x4bbd94db670a7362!2s3CM!5e0!3m2!1sfr!2scm!4v1772620571654!5m2!1sfr!2scm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MULTI-STEP FORM SECTION ===== -->
+  <section class="form-section" id="devis">
+    <div class="form-bg"></div>
+    <div class="container">
+      <div class="form-header" appScrollAnimation [animationType]="'fade-up'" [duration]="700">
+        <span class="section-tag">Demande de devis</span>
+        <h2>Démarrez votre projet</h2>
+        <p>En 3 étapes simples, donnez vie à vos ambitions communicationnelles.</p>
+      </div>
+
+      <div class="form-wrapper">
+        <!-- Step Indicator -->
+        @if (!isSubmitted()) {
+        <div class="step-indicator">
+          @for (step of [1,2,3]; track step) {
+          <div class="step-item" [class.active]="currentStep() >= step" [class.completed]="currentStep() > step">
+            <div class="step-circle">
+              @if (currentStep() > step) {
+              <ng-icon name="heroCheckCircle" size="18"></ng-icon>
+              } @else {
+              {{ step }}
+              }
+            </div>
+            <span class="step-label">
+              @if (step === 1) { Services }
+              @else if (step === 2) { Projet }
+              @else { Contact }
+            </span>
+          </div>
+          @if (step < 3) { <div class="step-connector" [class.filled]="currentStep() > step">
+            <div class="step-connector-fill" [style.width.%]="currentStep() > step ? 100 : 0"></div>
+        </div>
+        }
+        }
+      </div>
+      }
+
+      <!-- STEP 1: Service Selection -->
+      @if (currentStep() === 1) {
+      <div class="form-step step-enter">
+        <h3 class="step-title">Quels services vous intéressent ?</h3>
+        <p class="step-subtitle">Sélectionnez un ou plusieurs domaines d'expertise.</p>
+
+        <div class="service-grid">
+          @for (service of services; track service.id) {
+          <button type="button" class="service-option" [class.selected]="isServiceSelected(service.id)"
+            (click)="toggleService(service.id)" [attr.aria-pressed]="isServiceSelected(service.id)">
+            <div class="service-icon-wrap">
+              <ng-icon [name]="service.icon" size="26"></ng-icon>
+            </div>
+            <div class="service-text">
+              <span class="service-name">{{ service.label }}</span>
+              <span class="service-desc">{{ service.description }}</span>
+            </div>
+            @if (isServiceSelected(service.id)) {
+            <div class="selected-check">
+              <ng-icon name="heroCheckCircleSolid" size="20"></ng-icon>
+            </div>
+            }
+          </button>
+          }
+        </div>
+
+        <div class="form-nav">
+          <div></div>
+          <button type="button" class="btn-next" [disabled]="!isStep1Valid()" (click)="nextStep()">
+            Continuer
+            <ng-icon name="heroArrowRight" size="18"></ng-icon>
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- STEP 2: Project Details -->
+      @if (currentStep() === 2) {
+      <div class="form-step step-enter" [formGroup]="step2Form">
+        <h3 class="step-title">Parlez-nous de votre projet</h3>
+        <p class="step-subtitle">Ces informations nous aident à préparer une proposition adaptée.</p>
+
+        <div class="field-group">
+          <label class="field-label">
+            <ng-icon name="heroClock" size="16"></ng-icon>
+            Délai souhaité *
+          </label>
+          <div class="radio-group">
+            @for (t of timelines; track t.value) {
+            <label class="radio-option" [class.selected]="step2Form.get('timeline')?.value === t.value">
+              <input type="radio" formControlName="timeline" [value]="t.value" hidden />
+              <span class="radio-indicator"></span>
+              {{ t.label }}
+            </label>
+            }
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <ng-icon name="heroCurrencyDollar" size="16"></ng-icon>
+            Budget estimé *
+          </label>
+          <div class="radio-group">
+            @for (b of budgets; track b.value) {
+            <label class="radio-option" [class.selected]="step2Form.get('budget')?.value === b.value">
+              <input type="radio" formControlName="budget" [value]="b.value" hidden />
+              <span class="radio-indicator"></span>
+              {{ b.label }}
+            </label>
+            }
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <ng-icon name="heroDocumentText" size="16"></ng-icon>
+            Description du projet *
+          </label>
+          <textarea formControlName="projectDescription" class="field-textarea" rows="4"
+            placeholder="Décrivez vos objectifs, votre cible, et toute information pertinente…"></textarea>
+          @if (step2Form.get('projectDescription')?.invalid && step2Form.get('projectDescription')?.touched) {
+          <span class="field-error">Minimum 20 caractères requis.</span>
+          }
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn-prev" (click)="prevStep()">
+            <ng-icon name="heroArrowLeft" size="18"></ng-icon>
+            Retour
+          </button>
+          <button type="button" class="btn-next" [disabled]="step2Form.invalid" (click)="nextStep()">
+            Continuer
+            <ng-icon name="heroArrowRight" size="18"></ng-icon>
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- STEP 3: Contact Details -->
+      @if (currentStep() === 3) {
+      <div class="form-step step-enter" [formGroup]="step3Form">
+        <h3 class="step-title">Vos coordonnées</h3>
+        <p class="step-subtitle">Nous vous contacterons uniquement pour votre projet.</p>
+
+        <!-- Summary -->
+        <div class="recap-box">
+          <div class="recap-item">
+            <span class="recap-label">Services</span>
+            <span class="recap-value">{{ getSelectedServiceLabels() }}</span>
+          </div>
+          <div class="recap-item">
+            <span class="recap-label">Délai</span>
+            <span class="recap-value">{{ getTimelineLabel() }}</span>
+          </div>
+          <div class="recap-item">
+            <span class="recap-label">Budget</span>
+            <span class="recap-value">{{ getBudgetLabel() }}</span>
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group">
+            <label class="field-label">
+              <ng-icon name="heroUser" size="16"></ng-icon>
+              Nom complet *
+            </label>
+            <input type="text" formControlName="name" class="field-input" placeholder="Ex: Jean Dupont" />
+            @if (step3Form.get('name')?.invalid && step3Form.get('name')?.touched) {
+            <span class="field-error">Nom requis.</span>
+            }
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">
+              <ng-icon name="heroBuildingOffice" size="16"></ng-icon>
+              Entreprise (optionnel)
+            </label>
+            <input type="text" formControlName="company" class="field-input" placeholder="Ex: Ma Société SARL" />
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group">
+            <label class="field-label">
+              <ng-icon name="heroEnvelope" size="16"></ng-icon>
+              Email *
+            </label>
+            <input type="email" formControlName="email" class="field-input" placeholder="votre@email.com" />
+            @if (step3Form.get('email')?.invalid && step3Form.get('email')?.touched) {
+            <span class="field-error">Email valide requis.</span>
+            }
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">
+              <ng-icon name="heroPhone" size="16"></ng-icon>
+              Téléphone *
+            </label>
+            <input type="tel" formControlName="phone" class="field-input" placeholder="+237 6XX XXX XXX" />
+            @if (step3Form.get('phone')?.invalid && step3Form.get('phone')?.touched) {
+            <span class="field-error">Téléphone requis.</span>
+            }
+          </div>
+        </div>
+
+        @if (submitError()) {
+        <div class="error-alert">
+          <ng-icon name="heroXMark" size="18"></ng-icon>
+          {{ submitError() }}
+        </div>
+        }
+
+        <div class="form-nav">
+          <button type="button" class="btn-prev" (click)="prevStep()">
+            <ng-icon name="heroArrowLeft" size="18"></ng-icon>
+            Retour
+          </button>
+          <button type="button" class="btn-submit" [disabled]="step3Form.invalid || isSubmitting()"
+            (click)="submitForm()">
+            @if (isSubmitting()) {
+            <span class="spinner"></span>
+            Envoi…
+            } @else {
+            Envoyer ma demande
+            <ng-icon name="heroArrowRight" size="18"></ng-icon>
+            }
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- STEP 4: Success -->
+      @if (currentStep() === 4) {
+      <div class="form-step success-step step-enter">
+        <div class="success-icon">
+          <ng-icon name="heroCheckCircleSolid" size="64"></ng-icon>
+        </div>
+        <h3>Demande envoyée avec succès !</h3>
+        <p>
+          Merci <strong>{{ step3Form.get('name')?.value }}</strong> ! Notre équipe analysera votre demande
+          et vous contactera sous <strong>24 heures</strong> ouvrables.
+        </p>
+        <div class="success-actions">
+          <button type="button" class="btn-next" (click)="resetForm()">
+            Soumettre une nouvelle demande
+          </button>
+          <a routerLink="/" class="btn-prev">Retour à l'accueil</a>
+        </div>
+      </div>
+      }
+    </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS SECTION ===== -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header" appScrollAnimation [animationType]="'fade-up'" [duration]="700">
+        <span class="section-tag">Témoignages</span>
+        <h2>Ce que disent nos clients</h2>
+      </div>
+
+      <div class="testimonials-carousel" appScrollReveal>
+        <div class="testimonial-track">
+          @for (t of testimonials; track t.name; let i = $index) {
+          <div class="testimonial-card" [class.active]="activeTestimonial() === i">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-quote">{{ t.quote }}</p>
+            <div class="testimonial-stars">
+              @for (star of getStars(t.rating); track $index) {
+              <ng-icon [name]="star ? 'heroStarSolid' : 'heroStar'" size="18"></ng-icon>
+              }
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">{{ t.initials }}</div>
+              <div class="author-info">
+                <strong>{{ t.name }}</strong>
+                <span>{{ t.role }}, {{ t.company }}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="testimonial-controls">
+          <button class="carousel-btn prev" (click)="prevTestimonial()" aria-label="Précédent">
+            <ng-icon name="heroArrowLeft" size="20"></ng-icon>
+          </button>
+          <div class="carousel-dots">
+            @for (t of testimonials; track t.name; let i = $index) {
+            <button class="dot" [class.active]="activeTestimonial() === i" (click)="goToTestimonial(i)"
+              [attr.aria-label]="'Témoignage ' + (i+1)"></button>
+            }
+          </div>
+          <button class="carousel-btn next" (click)="nextTestimonial()" aria-label="Suivant">
+            <ng-icon name="heroArrowRight" size="20"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARTNERS SECTION ===== -->
+  <section class="partners-section">
+    <div class="container">
+      <div class="section-header" appScrollAnimation [animationType]="'fade-up'" [duration]="700">
+        <span class="section-tag">Partenaires</span>
+        <h2>Ils nous ont fait confiance</h2>
+      </div>
+
+      <div class="partners-grid" appScrollReveal>
+        @for (partner of partners; track partner.name) {
+        <div class="partner-tile" [attr.title]="partner.name">
+          @if (partner.logoSrc) {
+          <img [src]="partner.logoSrc" [alt]="partner.name" loading="lazy" />
+          } @else {
+          <div class="partner-initials">{{ partner.initials }}</div>
+          <span class="partner-name">{{ partner.name }}</span>
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+</main>

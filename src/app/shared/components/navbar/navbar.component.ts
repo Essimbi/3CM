@@ -1,4 +1,4 @@
-import { Component, HostListener, signal, ElementRef, ViewChild } from '@angular/core';
+import { Component, HostListener, signal, ElementRef, ViewChild, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { ScrollService } from '../../../core/services/scroll.service';
@@ -42,8 +42,8 @@ import {
              📞 +237 696 805 074
           </a>
           <span class="separator-dot">•</span>
-          <a href="mailto:contact@3cm.com" class="top-link">
-             ✉️ contact@3cm.com
+          <a href="mailto:info@3-c-m.com" class="top-link">
+             ✉️ info&#64;3-c-m.com
           </a>
         </div>
         <div class="top-socials">
@@ -63,7 +63,11 @@ import {
       </div>
     </div>
 
-    <nav class="navbar" [class.scrolled]="isScrolled()" role="navigation" aria-label="Navigation principale">
+    <nav class="navbar" 
+         [class.scrolled]="isScrolled()" 
+         [class.dark-hero-page]="isDarkHeroPage()"
+         role="navigation" 
+         aria-label="Navigation principale">
       <div class="navbar-container">
         <a href="/" class="navbar-logo" aria-label="3CM - Retour à l'accueil">
           <img src="assets/logo.jpg" alt="3CM Logo" class="logo-img" />
@@ -109,11 +113,11 @@ import {
           <li><a routerLink="/portfolio" class="nav-link">Portfolio</a></li>
           <li><a routerLink="/about" routerLinkActive="active" class="nav-link">À propos</a></li>
           
-          <li><a routerLink="/" fragment="contact" (click)="scrollTo('contact')" class="nav-link">Contact</a></li>
+          <!-- <li><a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a></li> -->
         </ul>
         
         <div class="navbar-actions desktop-only">
-          <button (click)="scrollTo('contact')" class="btn-primary">
+          <button routerLink="/contact" class="btn-primary">
             Démarrer un projet
           </button>
         </div>
@@ -161,7 +165,7 @@ import {
           <li><a routerLink="/portfolio"  class="mobile-nav-link">Portfolio</a></li>
           <li><a routerLink="/about" (click)="toggleMobileMenu()" class="mobile-nav-link">À propos</a></li>
           <li><a routerLink="/team" (click)="toggleMobileMenu()" class="mobile-nav-link">Équipe</a></li>
-          <li><a routerLink="/" fragment="contact" (click)="scrollToAndClose('contact')" class="mobile-nav-link">Contact</a></li>
+          <li><a routerLink="/contact" routerLinkActive="active" (click)="toggleMobileMenu()" class="mobile-nav-link">Contact</a></li>
         </ul>
         <div class="mobile-menu-actions">
            <div class="mobile-social-links">
@@ -181,7 +185,7 @@ import {
           <a href="tel:+237696805074" class="phone-link-mobile">
             📞 +237 696 805 074
           </a>
-          <button (click)="scrollToAndClose('contact')" class="btn-primary-mobile">
+          <button routerLink="/contact" (click)="toggleMobileMenu()" class="btn-primary-mobile">
             Démarrer un projet
           </button>
         </div>
@@ -200,6 +204,10 @@ export class NavbarComponent {
   mobileMenuOpen = signal(false);
   desktopMenuOpen = signal(false);
   mobileDropdownOpen = signal(false);
+
+  isDarkHeroPage = computed(() => {
+    return this.router.url.includes('/contact');
+  });
 
   services = [
     { label: 'Corporate', description: 'Stratégie & Conseil', path: '/services/corporate', icon: 'heroSparkles' },

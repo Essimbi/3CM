@@ -7,6 +7,7 @@ import { PortfolioSectionComponent } from './sections/portfolio/portfolio-sectio
 import { TrustSectionComponent } from './sections/trust/trust-section.component';
 import { StatsSectionComponent } from './sections/stats/stats-section.component';
 import { CtaSectionComponent } from './sections/cta/cta-section.component';
+import { TechSectionComponent } from './sections/tech/tech-section.component';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import { CtaSectionComponent } from './sections/cta/cta-section.component';
     PortfolioSectionComponent,
     TrustSectionComponent,
     StatsSectionComponent,
-    CtaSectionComponent
+    CtaSectionComponent,
+    TechSectionComponent
   ],
   template: `
     <!-- <a href="#main-content" class="skip-link">Aller au contenu principal</a> -->
@@ -26,6 +28,7 @@ import { CtaSectionComponent } from './sections/cta/cta-section.component';
     <main id="main-content" role="main">
       <app-hero-section />
       <app-services-section />
+      <app-tech-section />
       <app-portfolio-section />
       <app-trust-section />
       <app-stats-section />

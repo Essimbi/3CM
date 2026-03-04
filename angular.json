@@ -77,7 +77,8 @@
               "buildTarget": "3cm-site:build:production"
             },
             "development": {
-              "buildTarget": "3cm-site:build:development"
+              "buildTarget": "3cm-site:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

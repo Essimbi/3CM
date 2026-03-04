@@ -78,16 +78,36 @@
         box-shadow: vars.$shadow-md;
 
         .navbar-logo .logo-img {
-            // Keep it clean on blue background
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        .nav-link {
+        .nav-link,
+        .phone-link,
+        .menu-trigger {
+            color: vars.$text-light !important;
+        }
+    }
+
+    // Force white text on pages with dark headers (when not scrolled)
+    &.dark-hero-page:not(.scrolled) {
+
+        .nav-link,
+        .phone-link,
+        .menu-trigger {
             color: vars.$text-light;
+
+            &:hover {
+                color: vars.$primary-color;
+                background: rgba(255, 255, 255, 0.1);
+            }
         }
 
-        .phone-link {
-            color: vars.$text-light;
+        .hamburger span {
+            background-color: vars.$text-light;
+        }
+
+        .navbar-logo .logo-img {
+            filter: brightness(0) invert(1);
         }
     }
 }

@@ -1,20 +1,23 @@
-import { Component, signal, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, ElementRef, ViewChild, AfterViewChecked, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroChatBubbleLeftEllipsis, heroXMark, heroPaperAirplane } from '@ng-icons/heroicons/outline';
+import { heroChatBubbleLeftEllipsis, heroXMark, heroPaperAirplane, heroExclamationCircle } from '@ng-icons/heroicons/outline';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ChatService } from '../../../core/services/chat.service';
 
 interface Message {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  isError?: boolean;
 }
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
   imports: [CommonModule, NgIconComponent, FormsModule],
-  providers: [provideIcons({ heroChatBubbleLeftEllipsis, heroXMark, heroPaperAirplane })],
+  providers: [provideIcons({ heroChatBubbleLeftEllipsis, heroXMark, heroPaperAirplane, heroExclamationCircle })],
   template: `
     <div class="chatbot-wrapper" [class.open]="isOpen()">
       <!-- Chat Bubble Trigger -->
@@ -43,7 +46,7 @@ interface Message {
         <div class="messages-container" #scrollContainer>
           @for (msg of messages(); track msg.timestamp) {
             <div class="message-wrapper" [class.user]="msg.sender === 'user'">
-              <div class="message-bubble">
+              <div class="message-bubble" [class.error]="msg.isError">
                 {{ msg.text }}
                 <span class="timestamp">{{ msg.timestamp | date:'HH:mm' }}</span>
               </div>
@@ -52,7 +55,7 @@ interface Message {
           @if (isTyping()) {
             <div class="message-wrapper">
               <div class="message-bubble typing">
-                <span>.</span><span>.</span><span>.</span>
+                <span></span><span></span><span></span>
               </div>
             </div>
           }
@@ -65,8 +68,9 @@ interface Message {
             name="newMessage"
             placeholder="Écrivez votre message..."
             autocomplete="off"
+            [disabled]="isTyping()"
           >
-          <button type="submit" [disabled]="!newMessage().trim()">
+          <button type="submit" [disabled]="!newMessage().trim() || isTyping()">
             <ng-icon name="heroPaperAirplane" size="20"></ng-icon>
           </button>
         </form>
@@ -75,7 +79,7 @@ interface Message {
   `,
   styleUrl: './chatbot.component.scss'
 })
-export class ChatbotComponent implements AfterViewChecked {
+export class ChatbotComponent implements AfterViewChecked, OnDestroy {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   isOpen = signal(false);
@@ -90,8 +94,22 @@ export class ChatbotComponent implements AfterViewChecked {
   ]);
   newMessage = signal('');
 
+  private sub?: Subscription;
+  private readonly isBrowser: boolean;
+
+  constructor(
+    private chatService: ChatService,
+    @Inject(PLATFORM_ID) platformId: object,
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
   ngAfterViewChecked() {
     this.scrollToBottom();
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
   toggleChat() {
@@ -107,41 +125,35 @@ export class ChatbotComponent implements AfterViewChecked {
 
   sendMessage() {
     const text = this.newMessage().trim();
-    if (!text) return;
+    if (!text || !this.isBrowser) return;
 
+    // Add user message
     this.messages.update(msgs => [...msgs, {
       text,
       sender: 'user',
       timestamp: new Date()
     }]);
     this.newMessage.set('');
-
-    this.simulateResponse(text);
-  }
-
-  private simulateResponse(userText: string) {
     this.isTyping.set(true);
 
-    setTimeout(() => {
-      let response = "Je transmets votre demande à nos experts. Souhaitez-vous laisser vos coordonnées pour être recontacté ?";
-      const text = userText.toLowerCase();
-
-      if (text.includes('service') || text.includes('faire')) {
-        response = "3CM vous accompagne en Stratégie, Événementiel, Relations Presse et Digital. Quel domaine vous intéresse ?";
-      } else if (text.includes('prix') || text.includes('tarif') || text.includes('combien')) {
-        response = "Nos tarifs sont sur mesure selon vos besoins. Parlons de votre projet pour établir un devis précis !";
-      } else if (text.includes('contact') || text.includes('appel')) {
-        response = "Vous pouvez nous joindre au +237 696 805 074 ou via le formulaire sur notre page Contact.";
-      } else if (text.includes('merci') || text.includes('ciao') || text.includes('bye')) {
-        response = "Avec plaisir ! 3CM reste à votre entière disposition. Excellente journée !";
+    this.sub = this.chatService.sendMessage(text).subscribe({
+      next: (reply) => {
+        this.messages.update(msgs => [...msgs, {
+          text: reply,
+          sender: 'bot',
+          timestamp: new Date()
+        }]);
+        this.isTyping.set(false);
+      },
+      error: () => {
+        this.messages.update(msgs => [...msgs, {
+          text: 'Désolé, une erreur est survenue. Contactez-nous directement au +237 696 805 074 ou via info@3-c-m.com',
+          sender: 'bot',
+          timestamp: new Date(),
+          isError: true,
+        }]);
+        this.isTyping.set(false);
       }
-
-      this.messages.update(msgs => [...msgs, {
-        text: response,
-        sender: 'bot',
-        timestamp: new Date()
-      }]);
-      this.isTyping.set(false);
-    }, 1500);
+    });
   }
 }
