@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/3cm-site/browser",
+  "framework": "angular",
+  "installCommand": "npm install"
+}

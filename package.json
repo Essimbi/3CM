@@ -53,6 +53,7 @@
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "@types/three": "^0.182.0",
+    "@vercel/node": "^3.0.0",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
