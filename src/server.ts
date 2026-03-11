@@ -20,9 +20,20 @@ const angularApp = new AngularNodeAppEngine();
 // ─── Parse JSON bodies for API routes ────────────────────────────────────────
 app.use(express.json());
 
-// ─── Test Endpoint ───────────────────────────────────────────────────────────
+// ─── Diagnostic Endpoints ────────────────────────────────────────────────────
+app.get('/diagnostic', (req, res) => {
+  res.json({
+    status: 'online',
+    version: '1.0.2',
+    cwd: process.cwd(),
+    env_keys: Object.keys(process.env).filter(k => k.includes('API') || k.includes('GROQ')),
+    url: req.url,
+    originalUrl: req.originalUrl
+  });
+});
+
 app.get('/api/test', (req, res) => {
-  res.json({ status: 'ok', version: '1.0.1', time: new Date().toISOString(), env: !!process.env['GROQ_API_KEY'] });
+  res.json({ status: 'ok', version: '1.0.2', time: new Date().toISOString(), env: !!process.env['GROQ_API_KEY'] });
 });
 
 // ─── System prompt: 3CM context ──────────────────────────────────────────────
