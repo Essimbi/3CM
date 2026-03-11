@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node start-dev.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -54,7 +54,9 @@
     "@types/node": "^20.17.19",
     "@types/three": "^0.182.0",
     "@vercel/node": "^3.0.0",
+    "concurrently": "^9.2.1",
     "jsdom": "^27.1.0",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }
