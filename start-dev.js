@@ -1,87 +1,85 @@
 #!/usr/bin/env node
 
-const { spawn } = require('child_process');
-const http = require('http');
+const { spawn, execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 
 /**
- * Utility to check if a server is ready
- */
-function waitForServer(host, port, timeout = 30000) {
-  const startTime = Date.now();
-  
-  return new Promise((resolve, reject) => {
-    const interval = setInterval(() => {
-      const req = http.get(`http://${host}:${port}/api/test`, (res) => {
-        clearInterval(interval);
-        resolve();
-      });
-      
-      req.on('error', () => {
-        if (Date.now() - startTime > timeout) {
-          clearInterval(interval);
-          reject(new Error(`Timeout waiting for server on ${host}:${port}`));
-        }
-      });
-      
-      req.end();
-    }, 500);
-  });
-}
-
-/**
- * Start the API server first, wait for it, then start Angular dev server
+ * Development startup for SSR project
+ * Starts: ng build --watch + Express SSR server
  */
 async function main() {
-  console.log('\n🚀 Starting development servers...\n');
+  const distPath = path.join(process.cwd(), 'dist', '3cm-site', 'server', 'server.mjs');
   
-  // Start API server
-  console.log('1️⃣  Starting API server on port 4000...');
-  const apiServer = spawn('tsx', ['src/server.dev.ts'], {
-    cwd: process.cwd(),
-    stdio: 'inherit',
-    shell: true,
-  });
+  console.log('\n🚀 Starting SSR Development Server...\n');
   
-  apiServer.on('error', (err) => {
-    console.error('❌ Failed to start API server:', err);
-    process.exit(1);
-  });
-  
-  // Wait for API server to be ready
-  try {
-    await waitForServer('localhost', 4000);
-    console.log('✅ API server is ready!\n');
-  } catch (err) {
-    console.error('❌ API server failed to start:', err.message);
-    apiServer.kill();
-    process.exit(1);
+  // Check if dist exists, if not do initial build
+  if (!fs.existsSync(distPath)) {
+    console.log('📦 First build required. Building Angular project...');
+    try {
+      execSync('ng build', { 
+        cwd: process.cwd(), 
+        stdio: 'inherit',
+        shell: true 
+      });
+    } catch (err) {
+      console.error('❌ Build failed');
+      process.exit(1);
+    }
   }
   
-  // Start Angular dev server
-  console.log('2️⃣  Starting Angular dev server on port 4200...');
-  const ngServer = spawn('ng', ['serve'], {
+  console.log('\n✅ Build complete!\n');
+  
+  // Start ng build --watch in background
+  console.log('👀 Starting watch mode...');
+  const watchProcess = spawn('ng', ['build', '--watch'], {
+    cwd: process.cwd(),
+    stdio: 'pipe',
+    shell: true,
+  });
+  
+  // Suppress watch output, only show errors
+  watchProcess.stderr?.on('data', (data) => {
+    const msg = data.toString();
+    // Only show critical errors, not build info
+    if (msg.includes('error') || msg.includes('Error')) {
+      console.log(`[Watch] ${msg}`);
+    }
+  });
+  
+  watchProcess.on('error', (err) => {
+    console.error('❌ Watch process error:', err);
+  });
+  
+  // Wait a bit then start the SSR server
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  console.log('🟢 Starting Express SSR server on http://localhost:4200\n');
+  const serverPath = path.join(process.cwd(), 'dist', '3cm-site', 'server', 'server.mjs');
+  
+  const serverProcess = spawn('node', [serverPath], {
     cwd: process.cwd(),
     stdio: 'inherit',
     shell: true,
   });
   
-  ngServer.on('error', (err) => {
-    console.error('❌ Failed to start Angular dev server:', err);
-    apiServer.kill();
+  serverProcess.on('error', (err) => {
+    console.error('❌ Server process error:', err);
+    watchProcess.kill();
     process.exit(1);
   });
   
-  // Handle process termination
+  // Handle graceful shutdown
   process.on('SIGINT', () => {
     console.log('\n\n⏹  Stopping servers...');
-    apiServer.kill();
-    ngServer.kill();
-    setTimeout(() => process.exit(0), 1000);
+    serverProcess.kill();
+    watchProcess.kill();
+    setTimeout(() => process.exit(0), 500);
   });
   
   process.on('SIGTERM', () => {
-    apiServer.kill();
-    ngServer.kill();
+    serverProcess.kill();
+    watchProcess.kill();
     process.exit(0);
   });
 }
@@ -90,3 +88,4 @@ main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });
+
