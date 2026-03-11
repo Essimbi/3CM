@@ -59,9 +59,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const groqApiKey = process.env.GROQ_API_KEY;
+    const groqApiKey = process.env['GROQ_API_KEY'];
+    console.log('[/api/chat] Request received', { messagesCount: messages.length });
+    
     if (!groqApiKey) {
-      return res.status(500).json({ error: 'GROQ_API_KEY not configured' });
+      console.error('[/api/chat] GROQ_API_KEY is not configured');
+      return res.status(500).json({ error: 'GROQ_API_KEY not configured on Vercel. Please add it to environment variables.' });
     }
 
     const groq = new Groq({ apiKey: groqApiKey });
@@ -72,21 +75,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       content: msg.content,
     }));
 
+    console.log('[/api/chat] Calling Groq API...');
+    
     const response = await groq.chat.completions.create({
-      model: 'mixtral-8x7b-32768',
+      model: 'llama-3.3-70b-versatile',
       messages: [
         { role: 'system' as const, content: SYSTEM_PROMPT },
         ...groqMessages,
       ],
       temperature: 0.7,
-      max_tokens: 1024,
+      max_tokens: 500,
     });
 
-    const assistantMessage = response.choices?.[0]?.message?.content || 'No response generated';
+    const assistantMessage = response.choices?.[0]?.message?.content || 'Je suis désolé, je n\'ai pas pu traiter votre message.';
+    console.log('[/api/chat] Groq response received successfully');
 
     return res.status(200).json({ reply: assistantMessage });
-  } catch (error) {
-    console.error('Chatbot error:', error);
-    return res.status(500).json({ error: 'Failed to generate response' });
+  } catch (error: any) {
+    console.error('[/api/chat] Error:', error.message || error);
+    return res.status(500).json({ 
+      error: 'Failed to generate response',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 }
