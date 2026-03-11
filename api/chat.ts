@@ -95,7 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.error('[/api/chat] Error:', error.message || error);
     return res.status(500).json({ 
       error: 'Failed to generate response',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: process.env['NODE_ENV'] === 'development' ? error.message : undefined
     });
   }
 }
