@@ -145,7 +145,8 @@ export class ChatbotComponent implements AfterViewChecked, OnDestroy {
         }]);
         this.isTyping.set(false);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Chatbot error:', err);
         this.messages.update(msgs => [...msgs, {
           text: 'Désolé, une erreur est survenue. Contactez-nous directement au +237 696 805 074 ou via info@3-c-m.com',
           sender: 'bot',

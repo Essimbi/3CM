@@ -61,7 +61,10 @@ app.post('/api/chat', async (req, res) => {
 
   if (!apiKey || apiKey === 'your-groq-api-key-here' || apiKey === 'your-gemini-api-key-here') {
     console.error('[/api/chat] Error: GROQ_API_KEY is not set or is the default value.');
-    res.status(500).json({ error: 'Groq API key not configured.' });
+    res.status(500).json({
+      error: 'Groq API key not configured.',
+      debug: { hasKey: !!apiKey, env: process.env['NODE_ENV'] }
+    });
     return;
   }
 
