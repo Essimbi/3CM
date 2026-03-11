@@ -22,7 +22,7 @@ app.use(express.json());
 
 // ─── Test Endpoint ───────────────────────────────────────────────────────────
 app.get('/api/test', (req, res) => {
-  res.json({ status: 'ok', time: new Date().toISOString(), env: !!process.env['GROQ_API_KEY'] });
+  res.json({ status: 'ok', version: '1.0.1', time: new Date().toISOString(), env: !!process.env['GROQ_API_KEY'] });
 });
 
 // ─── System prompt: 3CM context ──────────────────────────────────────────────
@@ -54,8 +54,8 @@ POSTURE :
 - Si la question dépasse tes connaissances sur 3CM, oriente vers info@3-c-m.com
 - Ne pas inventer de prix ; toujours proposer un devis personnalisé`;
 
-// ─── POST /api/v1/chat ────────────────────────────────────────────────────────
-app.post('/api/v1/chat', async (req, res) => {
+// ─── POST /bot-api/v1/chat ────────────────────────────────────────────────────
+app.post('/bot-api/v1/chat', async (req, res) => {
   const apiKey = process.env['GROQ_API_KEY'];
   console.log('[/api/chat] Request received');
 

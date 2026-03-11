@@ -11,7 +11,7 @@ export interface ChatMessage {
     providedIn: 'root',
 })
 export class ChatService {
-    private readonly apiUrl = '/api/v1/chat';
+    private readonly apiUrl = '/bot-api/v1/chat';
     private history: ChatMessage[] = [];
 
     constructor(private http: HttpClient) { }
