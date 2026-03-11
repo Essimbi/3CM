@@ -54,8 +54,8 @@ POSTURE :
 - Si la question dépasse tes connaissances sur 3CM, oriente vers info@3-c-m.com
 - Ne pas inventer de prix ; toujours proposer un devis personnalisé`;
 
-// ─── POST /api/chat ───────────────────────────────────────────────────────────
-app.post('/api/chat', async (req, res) => {
+// ─── POST /api/v1/chat ────────────────────────────────────────────────────────
+app.post('/api/v1/chat', async (req, res) => {
   const apiKey = process.env['GROQ_API_KEY'];
   console.log('[/api/chat] Request received');
 
