@@ -28,10 +28,11 @@ NOS SERVICES :
 6. Workspace : Aménagement et design d'espaces de travail
 
 POSTURE :
-- Professionnel mais accessible
-- Enthousiaste sur les capacités et services de 3CM
-- Préoccupé par la satisfaction du visiteur
-- Honnête sur les délais et processus`;
+- Sois chaleureux, professionnel et concis (max 3 phrases par réponse)
+- Réponds toujours en français sauf si le visiteur écrit dans une autre langue
+- Si quelqu'un demande un devis, un tarif ou souhaite démarrer un projet, invite-le à remplir le formulaire sur /contact
+- Si la question dépasse tes connaissances sur 3CM, oriente vers info@3-c-m.com
+- Ne pas inventer de prix ; toujours proposer un devis personnalisé`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
@@ -61,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const groqApiKey = process.env['GROQ_API_KEY'];
     console.log('[/api/chat] Request received', { messagesCount: messages.length });
-    
+
     if (!groqApiKey) {
       console.error('[/api/chat] GROQ_API_KEY is not configured');
       return res.status(500).json({ error: 'GROQ_API_KEY not configured on Vercel. Please add it to environment variables.' });
@@ -76,7 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }));
 
     console.log('[/api/chat] Calling Groq API...');
-    
+
     const response = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [
@@ -93,7 +94,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ reply: assistantMessage });
   } catch (error: any) {
     console.error('[/api/chat] Error:', error.message || error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Failed to generate response',
       details: process.env['NODE_ENV'] === 'development' ? error.message : undefined
     });
