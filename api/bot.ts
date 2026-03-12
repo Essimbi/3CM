@@ -1,5 +1,4 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import Groq from 'groq-sdk';
 
 const SYSTEM_PROMPT = `Tu es l'assistant virtuel de 3CM (Communication Conseil Cameroun), une agence de communication et de conseil en stratégie basée à Yaoundé, Cameroun, avec un bureau en France.
 
@@ -31,10 +30,10 @@ POSTURE :
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
-        // CORS
+        // CORS headers
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
         if (req.method === 'OPTIONS') {
             return res.status(200).end();
@@ -44,8 +43,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (req.method === 'GET') {
             return res.status(200).json({
                 status: 'diagnostic_ok',
-                version: '1.0.3',
-                message: 'API is alive. Use POST for chat.',
+                version: '1.0.5',
+                message: 'Direct Fetch API is alive.',
                 env_health: {
                     has_groq_key: !!process.env['GROQ_API_KEY'],
                     node_version: process.version
@@ -61,37 +60,53 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const apiKey = process.env['GROQ_API_KEY'];
 
         if (!apiKey) {
-            console.error('[API BOT] Missing API KEY');
-            return res.status(500).json({ error: 'GROQ_API_KEY missing on production environment.' });
+            return res.status(500).json({ error: 'GROQ_API_KEY missing on Vercel.' });
         }
 
         if (!messages || !Array.isArray(messages)) {
-            return res.status(400).json({ error: 'Invalid payload: messages array required.' });
+            return res.status(400).json({ error: 'Messages array required.' });
         }
 
-        const groq = new Groq({ apiKey });
-        const completion = await groq.chat.completions.create({
-            messages: [
-                { role: 'system' as const, content: SYSTEM_PROMPT },
-                ...messages.map((m: any) => ({
-                    role: (m.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',
-                    content: m.content
-                }))
-            ],
-            model: 'llama-3.3-70b-versatile',
-            temperature: 0.7,
-            max_tokens: 500,
+        // Direct fetch to Groq API
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    ...messages.map((m: any) => ({
+                        role: m.role,
+                        content: m.content
+                    }))
+                ],
+                temperature: 0.7,
+                max_tokens: 500
+            })
         });
 
-        const reply = completion.choices[0]?.message?.content ?? 'Désolé, je n\'ai pas pu traiter votre demande.';
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('[GROQ API ERROR]:', errorData);
+            return res.status(response.status).json({
+                error: 'Groq API returned an error',
+                details: errorData
+            });
+        }
+
+        const data = await response.json();
+        const reply = data.choices?.[0]?.message?.content ?? 'Désolé, je n\'ai pas pu obtenir de réponse.';
+
         return res.status(200).json({ reply });
 
     } catch (error: any) {
         console.error('[API BOT CRITICAL ERROR]:', error);
         return res.status(500).json({
             error: 'CRITICAL_FUNCTION_ERROR',
-            message: error.message || 'Unknown error',
-            stack: process.env['NODE_ENV'] === 'development' ? error.stack : undefined
+            message: error.message || 'Unknown error'
         });
     }
 }
