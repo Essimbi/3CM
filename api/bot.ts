@@ -28,7 +28,10 @@ POSTURE :
 - Si la question dépasse tes connaissances sur 3CM, oriente vers info@3-c-m.com
 - Ne pas inventer de prix ; toujours proposer un devis personnalisé`;
 
+console.log('[API BOT] Function initialized');
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    console.log(`[API BOT] Request received: ${req.method} ${req.url}`);
     try {
         // CORS headers
         res.setHeader('Access-Control-Allow-Origin', '*');
