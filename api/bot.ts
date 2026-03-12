@@ -2,10 +2,10 @@ export const config = {
     runtime: 'edge',
 };
 
-export default async function handler(req) {
+export default async function handler(req: any) {
     try {
         // Check key
-        const apiKey = process.env.GROQ_API_KEY;
+        const apiKey = process.env['GROQ_API_KEY'];
         if (!apiKey) {
             return new Response(JSON.stringify({ error: 'GROQ_API_KEY is not set' }), { status: 500 });
         }
@@ -79,8 +79,8 @@ POSTURE :
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('[EDGE ERROR]:', error);
-        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+        return new Response(JSON.stringify({ error: error.message || 'Unknown error' }), { status: 500 });
     }
 }
