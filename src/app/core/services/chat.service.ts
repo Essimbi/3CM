@@ -68,10 +68,10 @@ POSTURE :
         };
 
         return this.http
-            .post<any>(this.apiUrl, body, { headers })
+            .post<{ reply: string }>(this.apiUrl, { messages: this.history }, { headers })
             .pipe(
                 map((res) => {
-                    const reply = res.choices[0]?.message?.content ?? 'Désolé, je n\'ai pas pu obtenir de réponse.';
+                    const reply = res.reply ?? 'Désolé, je n\'ai pas pu obtenir de réponse.';
                     const botMessage: ChatMessage = { role: 'assistant', content: reply };
                     this.history = [...this.history, botMessage];
                     return reply;
