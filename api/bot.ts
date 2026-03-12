@@ -30,31 +30,45 @@ POSTURE :
 - Ne pas inventer de prix ; toujours proposer un devis personnalisé`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    // CORS (Optional for Vercel functions as they are on the same domain usually)
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const { messages } = req.body;
-    const apiKey = process.env['GROQ_API_KEY'];
-
-    if (!apiKey) {
-        return res.status(500).json({ error: 'GROQ_API_KEY missing on production environment.' });
-    }
-
-    if (!messages || !Array.isArray(messages)) {
-        return res.status(400).json({ error: 'Invalid payload: messages array required.' });
-    }
-
     try {
+        // CORS
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+        if (req.method === 'OPTIONS') {
+            return res.status(200).end();
+        }
+
+        // Diagnostic GET
+        if (req.method === 'GET') {
+            return res.status(200).json({
+                status: 'diagnostic_ok',
+                version: '1.0.3',
+                message: 'API is alive. Use POST for chat.',
+                env_health: {
+                    has_groq_key: !!process.env['GROQ_API_KEY'],
+                    node_version: process.version
+                }
+            });
+        }
+
+        if (req.method !== 'POST') {
+            return res.status(405).json({ error: 'Method not allowed' });
+        }
+
+        const { messages } = req.body;
+        const apiKey = process.env['GROQ_API_KEY'];
+
+        if (!apiKey) {
+            console.error('[API BOT] Missing API KEY');
+            return res.status(500).json({ error: 'GROQ_API_KEY missing on production environment.' });
+        }
+
+        if (!messages || !Array.isArray(messages)) {
+            return res.status(400).json({ error: 'Invalid payload: messages array required.' });
+        }
+
         const groq = new Groq({ apiKey });
         const completion = await groq.chat.completions.create({
             messages: [
@@ -71,8 +85,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const reply = completion.choices[0]?.message?.content ?? 'Désolé, je n\'ai pas pu traiter votre demande.';
         return res.status(200).json({ reply });
+
     } catch (error: any) {
-        console.error('[API BOT ERROR]:', error);
-        return res.status(500).json({ error: 'IA processing error', details: error.message });
+        console.error('[API BOT CRITICAL ERROR]:', error);
+        return res.status(500).json({
+            error: 'CRITICAL_FUNCTION_ERROR',
+            message: error.message || 'Unknown error',
+            stack: process.env['NODE_ENV'] === 'development' ? error.stack : undefined
+        });
     }
 }
