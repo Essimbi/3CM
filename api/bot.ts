@@ -58,9 +58,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const groq = new Groq({ apiKey });
         const completion = await groq.chat.completions.create({
             messages: [
-                { role: 'system', content: SYSTEM_PROMPT },
+                { role: 'system' as const, content: SYSTEM_PROMPT },
                 ...messages.map((m: any) => ({
-                    role: m.role === 'assistant' ? 'assistant' : 'user',
+                    role: (m.role === 'assistant' ? 'assistant' : 'user') as 'assistant' | 'user',
                     content: m.content
                 }))
             ],
