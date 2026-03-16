@@ -3,7 +3,7 @@
 
 .trust-section {
     position: relative;
-    padding: clamp(vars.$spacing-4xl, 18vh, 136px) 0;
+    padding: clamp(vars.$spacing-4xl, 14vh, 120px) 0;
     background:
         radial-gradient(circle at 10% 15%, rgba(49, 163, 221, 0.12), transparent 45%),
         radial-gradient(circle at 85% 20%, rgba(13, 92, 134, 0.12), transparent 45%),
@@ -15,9 +15,9 @@
 .trust-background {
     position: absolute;
     inset: 0;
-    opacity: 0.85;
+    opacity: 0.9;
     pointer-events: none;
-    filter: blur(28px);
+    filter: blur(22px);
 }
 
 .floating-orb {
@@ -88,16 +88,17 @@
     @include mix.container;
     display: flex;
     flex-direction: column;
-    gap: clamp(vars.$spacing-3xl, 10vh, vars.$spacing-4xl);
+    gap: clamp(vars.$spacing-lg, 4vh, vars.$spacing-2xl);
 }
 
 .trust-header {
-    max-width: 780px;
+    max-width: 760px;
     display: flex;
     flex-direction: column;
     gap: vars.$spacing-md;
     text-align: center;
     margin: 0 auto;
+    align-items: center;
 }
 
 .trust-eyebrow {
@@ -118,6 +119,8 @@
 .trust-title {
     @include mix.heading-2;
     letter-spacing: -0.03em;
+    margin: 0;
+    color: rgba(11, 31, 51, 0.96);
 }
 
 .logo-grid {
@@ -125,6 +128,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(vars.$spacing-lg, 3vw, vars.$spacing-2xl);
     align-items: center;
+    margin-top: clamp(vars.$spacing-lg, 3vw, vars.$spacing-2xl);
 
     @include mix.from-tablet {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -139,7 +143,7 @@
     position: relative;
     height: clamp(72px, 8vw, 96px);
     border-radius: vars.$radius-xl;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.88);
     border: 1px solid rgba(15, 23, 42, 0.08);
     box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
     display: grid;
@@ -147,6 +151,7 @@
     overflow: hidden;
     transition: transform vars.$transition-base, box-shadow vars.$transition-base, border-color vars.$transition-base;
     @include mix.gpu-accelerate;
+    backdrop-filter: blur(14px);
 
     &::before {
         content: '';
@@ -162,8 +167,8 @@
     }
 
     &:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 26px 70px rgba(13, 92, 134, 0.14);
+        transform: translateY(-5px);
+        box-shadow: 0 26px 70px rgba(13, 92, 134, 0.12);
         border-color: rgba(49, 163, 221, 0.18);
 
         &::before {
@@ -173,13 +178,18 @@
 }
 
 .logo-image {
-    width: min(140px, 70%);
-    max-height: 44px;
+    width: min(148px, 72%);
+    max-height: 46px;
     height: auto;
     object-fit: contain;
     filter: grayscale(1);
     opacity: 0.78;
     transition: filter vars.$transition-base, opacity vars.$transition-base, transform vars.$transition-base;
+
+    @include mix.from-desktop {
+        width: min(160px, 74%);
+        max-height: 50px;
+    }
 }
 
 .logo-tile:hover .logo-image {
@@ -215,7 +225,7 @@
 }
 
 .trust-subtitle {
-    color: rgba(15, 23, 42, 0.72);
+    color: vars.$gray-700;
     line-height: 1.75;
 }
 
@@ -245,8 +255,8 @@
     overflow: hidden;
 
     &:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 34px 90px rgba(13, 92, 134, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        transform: translateY(-16px) scale(1.02);
+        box-shadow: 0 40px 100px rgba(13, 92, 134, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.95);
         border-color: rgba(49, 163, 221, 0.25);
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 251, 254, 0.95) 100%);
     }
@@ -322,7 +332,7 @@
     color: vars.$text-dark;
     animation: slideInUp 0.6s ease-out 0.1s both;
     font-weight: 600;
-    background: linear-gradient(135deg, rgba(11, 31, 51, 1), rgba(13, 92, 134, 1));
+    background: linear-gradient(135deg, #0b1f33, #315fa3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -354,7 +364,7 @@
 
 .author-role {
     font-size: vars.$font-size-small;
-    color: rgba(15, 23, 42, 0.68);
+    color: vars.$gray-700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
@@ -396,8 +406,8 @@
 
     &:hover {
         background: linear-gradient(135deg, rgba(49, 163, 221, 0.25), rgba(13, 92, 134, 0.15));
-        transform: translateY(-4px);
-        box-shadow: 0 18px 44px rgba(49, 163, 221, 0.22);
+        transform: translateY(-8px) scale(1.08);
+        box-shadow: 0 20px 40px rgba(49, 163, 221, 0.25);
         border-color: rgba(49, 163, 221, 0.4);
     }
 }
@@ -426,7 +436,7 @@
 
 .metric-label {
     font-size: vars.$font-size-small;
-    color: rgba(15, 23, 42, 0.62);
+    color: vars.$gray-700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
 }
@@ -445,7 +455,7 @@
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     &:hover {
-        transform: translateY(-8px);
+        transform: translateY(-12px) scale(1.01);
         box-shadow: 0 70px 140px rgba(11, 31, 51, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 }
@@ -549,8 +559,8 @@
     }
 
     &:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 38px 80px rgba(13, 92, 134, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        transform: translateY(-20px) scale(1.05);
+        box-shadow: 0 45px 90px rgba(13, 92, 134, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.95);
         border-color: rgba(49, 163, 221, 0.25);
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 251, 254, 0.96) 100%);
     }
@@ -601,7 +611,7 @@
 }
 
 .brand-tile:hover .tile-emblem {
-    transform: scale(1.08) rotate(-6deg);
+    transform: scale(1.15) rotate(-8deg);
     box-shadow: 0 20px 40px rgba(49, 163, 221, 0.35);
 
     &::before {
@@ -629,14 +639,14 @@
     font-size: vars.$font-size-small;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(15, 23, 42, 0.66);
+    color: vars.$gray-700;
 }
 
 .tile-scope {
     margin: 0;
     font-size: vars.$font-size-small;
     line-height: 1.7;
-    color: rgba(15, 23, 42, 0.7);
+    color: vars.$gray-700;
     transition: color 0.3s ease;
 }
 

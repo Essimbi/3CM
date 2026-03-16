@@ -25,7 +25,7 @@ INFORMATIONS CLÉ SUR 3CM :
 - Téléphone Cameroun : +237 696 805 074
 - Téléphone France : +33 6 34 20 83 68
 - Email : info@3-c-m.com
-- Page contact : /contact
+- Page contact : Buton démarrer un projet sur la barre de navigation
 
 NOS SERVICES :
 1. Corporate : Stratégie de communication institutionnelle, conseil en image

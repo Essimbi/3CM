@@ -15,6 +15,12 @@ interface TrustedPartner {
   imports: [CommonModule, ScrollRevealDirective, ScrollAnimationDirective],
   template: `
     <section class="trust-section" id="trust">
+      <div class="trust-background" aria-hidden="true">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        <div class="gradient-mesh"></div>
+      </div>
       <div class="trust-container">
         <div class="trust-header" appScrollAnimation [animationType]="'fade-up'" [duration]="800">
           <h2 class="trust-title">Ils nous ont fait confiance</h2>
@@ -39,29 +45,13 @@ interface TrustedPartner {
 })
 export class TrustSectionComponent {
   readonly partners: TrustedPartner[] = [
-    {
-      name: 'Banque Atlantique Cameroun',
-      initials: 'BAC'
-    },
-    {
-      name: 'Ministère des Arts et de la Culture',
-      initials: 'MINAC'
-    },
-    {
-      name: 'StartUp Nation',
-      initials: 'SN'
-    },
-    {
-      name: 'Agence Française de Développement',
-      initials: 'AFD'
-    },
-    {
-      name: 'Canal+ Afrique',
-      initials: 'C+'
-    },
-    {
-      name: 'African Business Forum',
-      initials: 'ABF'
-    }
+    { name: 'CAMWATER', initials: 'CW', logoSrc: 'assets/partners/camwater.png' },
+    { name: 'CFCE', initials: 'CFCE', logoSrc: 'assets/partners/cfce.png' },
+    { name: 'Guinness', initials: 'GN', logoSrc: 'assets/partners/guiness.png' },
+    { name: 'MINPMESSA', initials: 'MINPMESSA', logoSrc: 'assets/partners/minpmessa.png' },
+    { name: 'NFC Bank', initials: 'NFC', logoSrc: 'assets/partners/nfc.png' },
+    { name: 'Ministère du Commerce', initials: 'MINCOMMERCE', logoSrc: 'assets/partners/omc.png' },
+    { name: 'SNH', initials: 'SNH', logoSrc: 'assets/partners/snh.png' },
+    { name: 'Total', initials: 'TOT', logoSrc: 'assets/partners/total.png' }
   ];
 }

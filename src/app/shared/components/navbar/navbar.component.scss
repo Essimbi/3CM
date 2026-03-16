@@ -66,11 +66,15 @@
 
 .navbar {
     position: fixed;
-    top: 40px; // Offset by top-bar height
+    top: 40px; // Offset by top-bar height (hidden on mobile)
     left: 0;
     right: 0;
     z-index: vars.$z-index-sticky;
     transition: background-color vars.$transition-base, box-shadow vars.$transition-base;
+
+    @media (max-width: #{vars.$breakpoint-tablet - 1px}) {
+        top: 0;
+    }
 
     &.scrolled {
         background-color: rgba(vars.$primary-color, 0.95);
@@ -500,16 +504,17 @@
 
 .mobile-menu {
     position: fixed;
-    top: 100px; // Match navbar height
+    top: 90px; // Match navbar height (no top-bar on mobile)
     right: -100%;
     width: 80%;
     max-width: 400px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 90px);
     background-color: vars.$background-light;
     box-shadow: vars.$shadow-2xl;
     transition: right vars.$transition-slow;
     padding: vars.$spacing-xl;
     overflow-y: auto;
+    z-index: 1200; // Above page content, below chatbot (9999)
 
     &.open {
         right: 0;

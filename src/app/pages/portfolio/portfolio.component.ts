@@ -1,18 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Project {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-}
+import { ProjectsService, Project } from '../../core/services/projects.service';
+import { ProjectCardComponent } from '../../shared/components/project-card/project-card.component';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProjectCardComponent],
   template: `
     <div class="page-container mt-4">
       <!-- Hero Section -->
@@ -47,18 +41,8 @@ interface Project {
         <div class="projects-grid">
           <div 
             *ngFor="let project of filteredProjects" 
-            class="project-card"
             [attr.data-category]="project.category">
-            <div class="card-image-wrapper">
-              <img [src]="project.image" [alt]="project.title" class="project-image">
-              <div class="card-overlay">
-                <span class="category-tag">{{ project.category }}</span>
-                <p class="project-desc">{{ project.description }}</p>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="project-title">{{ project.title }}</h3>
-            </div>
+            <app-project-card [project]="project" />
           </div>
         </div>
 
@@ -366,66 +350,15 @@ interface Project {
 })
 export class PortfolioComponent implements OnInit {
   selectedCategory: string = 'Tous';
-  categories: string[] = ['Tous', 'Digital', 'Branding', 'Print', 'Event', 'Marketing'];
+  readonly categories: string[];
 
-  projects: Project[] = [
-    {
-      id: 1,
-      title: 'Dovaslink',
-      category: 'Digital',
-      description: 'Développement d’une plateforme web complexe orientée expérience utilisateur.',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 2,
-      title: 'Campagne Scolaire 2020',
-      category: 'Print',
-      description: 'Conception d’une plaquette événementielle et supports de communication pour la rentrée.',
-      image: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 3,
-      title: 'Missolia Pôle Tech',
-      category: 'Digital',
-      description: 'Accompagnement technologique et développement de solutions innovantes.',
-      image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 4,
-      title: 'Branding Institutionnel',
-      category: 'Branding',
-      description: 'Création d’une identité visuelle forte et cohérente pour un acteur majeur.',
-      image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 5,
-      title: 'Sacs Promotionnels',
-      category: 'Branding',
-      description: 'Packaging et objets promotionnels haut de gamme pour renforcer l’image de marque.',
-      image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 6,
-      title: 'Stratégie Digitale Globale',
-      category: 'Marketing',
-      description: 'Mise en place d’une stratégie de visibilité et d’achat médias sur le web.',
-      image: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&q=80&w=800'
-    },
-    {
-      id: 7,
-      title: 'Supports Événementiels',
-      category: 'Event',
-      description: 'Roll-ups, fonds de scène et signalétique pour salons internationaux.',
-      image: 'https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?auto=format&fit=crop&q=80&w=800'
-    }
-  ];
+  constructor(private readonly projectsService: ProjectsService) {
+    this.categories = ['Tous', ...this.projectsService.getCategories()];
+  }
 
   ngOnInit() { }
 
   get filteredProjects(): Project[] {
-    if (this.selectedCategory === 'Tous') {
-      return this.projects;
-    }
-    return this.projects.filter(p => p.category === this.selectedCategory);
+    return this.projectsService.filterByCategory(this.selectedCategory);
   }
 }

@@ -164,14 +164,14 @@ export class ContactComponent implements OnInit {
     ];
 
     readonly partners: Partner[] = [
-        { name: 'Banque Atlantique Cameroun', initials: 'BAC' },
-        { name: 'Ministère des Arts et de la Culture', initials: 'MINAC' },
-        { name: 'StartUp Nation', initials: 'SN' },
-        { name: 'Agence Française de Développement', initials: 'AFD' },
-        { name: 'Canal+ Afrique', initials: 'C+' },
-        { name: 'African Business Forum', initials: 'ABF' },
-        { name: 'Orange Cameroun', initials: 'OC' },
-        { name: 'MTN Cameroun', initials: 'MTN' },
+        { name: 'CAMWATER', initials: 'CW', logoSrc: 'assets/partners/camwater.png' },
+        { name: 'CFCE', initials: 'CFCE', logoSrc: 'assets/partners/cfce.png' },
+        { name: 'Guinness', initials: 'GN', logoSrc: 'assets/partners/guiness.png' },
+        { name: 'MINPMESSA', initials: 'MINPMESSA', logoSrc: 'assets/partners/minpmessa.png' },
+        { name: 'NFC Bank', initials: 'NFC', logoSrc: 'assets/partners/nfc.png' },
+        { name: 'Ministère du Commerce', initials: 'MINCOMMERCE', logoSrc: 'assets/partners/omc.png' },
+        { name: 'SNH', initials: 'SNH', logoSrc: 'assets/partners/snh.png' },
+        { name: 'Total', initials: 'TOT', logoSrc: 'assets/partners/total.png' }
     ];
 
     step1Form: FormGroup;
