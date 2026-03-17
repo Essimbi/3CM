@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProjectsService, Project } from '../../../core/services/projects.service';
 import { ProjectCardComponent } from '../../../shared/components/project-card/project-card.component';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroXMark, heroChevronLeft, heroChevronRight } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-project-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, ProjectCardComponent],
+  imports: [CommonModule, RouterLink, ProjectCardComponent, NgIconComponent],
+  providers: [provideIcons({ heroXMark, heroChevronLeft, heroChevronRight })],
   template: `
     <div class="project-details-page">
       @if (project; as p) {
@@ -24,7 +27,7 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
                 <span class="meta-text">{{ p.year }}</span>
               }
             </div>
-            <h1 class="hero-title">{{ p.title }}</h1>
+            <h1 class="hero-title" style="color: #fff !important;">{{ p.title }}</h1>
             <p class="hero-subtitle">{{ p.description }}</p>
 
             <div class="hero-tags">
@@ -90,13 +93,45 @@ import { ProjectCardComponent } from '../../../shared/components/project-card/pr
               </div>
 
               <div class="gallery-grid">
-                @for (src of p.gallery; track src) {
-                  <div class="gallery-item">
+                @for (src of p.gallery; track src; let i = $index) {
+                  <div class="gallery-item" (click)="openModal(i)">
                     <img [src]="src" [alt]="p.title" loading="lazy" />
                   </div>
                 }
               </div>
             </section>
+
+            <!-- Image Modal -->
+            @if (isModalOpen()) {
+              <div class="gallery-modal" (click)="closeModal()">
+                <button class="modal-close" (click)="closeModal(); $event.stopPropagation()" aria-label="Fermer">
+                  <ng-icon name="heroXMark" size="2rem"></ng-icon>
+                </button>
+                
+                <button 
+                  class="modal-nav prev" 
+                  (click)="prevImage($event)" 
+                  *ngIf="p.gallery!.length > 1"
+                  aria-label="Image précédente">
+                  <ng-icon name="heroChevronLeft" size="2.5rem"></ng-icon>
+                </button>
+
+                <div class="modal-content" (click)="$event.stopPropagation()">
+                  <img [src]="p.gallery![currentImageIndex()]" [alt]="p.title + ' preview'" />
+                  <div class="modal-counter">
+                    {{ currentImageIndex() + 1 }} / {{ p.gallery!.length }}
+                  </div>
+                </div>
+
+                <button 
+                  class="modal-nav next" 
+                  (click)="nextImage($event)" 
+                  *ngIf="p.gallery!.length > 1"
+                  aria-label="Image suivante">
+                  <ng-icon name="heroChevronRight" size="2.5rem"></ng-icon>
+                </button>
+              </div>
+            }
           }
 
           <section class="similar">
@@ -133,6 +168,9 @@ export class ProjectDetailsComponent {
   readonly project?: Project;
   readonly similarProjects: Project[];
 
+  isModalOpen = signal(false);
+  currentImageIndex = signal(0);
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly projectsService: ProjectsService
@@ -142,5 +180,49 @@ export class ProjectDetailsComponent {
 
     this.project = Number.isFinite(id) ? this.projectsService.getProjectById(id) : undefined;
     this.similarProjects = this.project ? this.projectsService.getSimilarProjects(this.project, 3) : [];
+  }
+
+  openModal(index: number) {
+    this.currentImageIndex.set(index);
+    this.isModalOpen.set(true);
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal() {
+    this.isModalOpen.set(false);
+    document.body.style.overflow = '';
+  }
+
+  nextImage(event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.project?.gallery) {
+      const nextIndex = (this.currentImageIndex() + 1) % this.project.gallery.length;
+      this.currentImageIndex.set(nextIndex);
+    }
+  }
+
+  prevImage(event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.project?.gallery) {
+      const prevIndex = (this.currentImageIndex() - 1 + this.project.gallery.length) % this.project.gallery.length;
+      this.currentImageIndex.set(prevIndex);
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (!this.isModalOpen()) return;
+
+    switch (event.key) {
+      case 'Escape':
+        this.closeModal();
+        break;
+      case 'ArrowRight':
+        this.nextImage();
+        break;
+      case 'ArrowLeft':
+        this.prevImage();
+        break;
+    }
   }
 }
