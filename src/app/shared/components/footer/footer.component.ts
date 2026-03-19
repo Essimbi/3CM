@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <footer class="footer" role="contentinfo">
       <div class="footer-container">
@@ -52,7 +52,7 @@ import { RouterLink } from '@angular/router';
               <li><a routerLink="/portfolio">Portfolio</a></li>
               <li><a routerLink="/about">À propos</a></li>
               <li><a routerLink="/team">Notre équipe</a></li>
-              <li><a routerLink="/" fragment="contact">Contact</a></li>
+              <li><a routerLink="/contact">Contact</a></li>
             </ul>
           </div>
           
@@ -60,11 +60,11 @@ import { RouterLink } from '@angular/router';
           <div class="footer-column">
             <h3 class="footer-title">Services</h3>
             <ul class="footer-links">
-              <li><a href="/services/strategie">Stratégie de Communication</a></li>
-              <li><a href="/services/evenements">Gestion d'Événements</a></li>
-              <li><a href="/services/relations-presse">Relations Presse</a></li>
-              <li><a href="/services/branding">Branding</a></li>
-              <li><a href="/services/digital">Digital & Web</a></li>
+              <li><a routerLink="/services/corporate">Stratégie de Communication</a></li>
+              <li><a routerLink="/services/events">Gestion d'Événements</a></li>
+              <li><a routerLink="/services/influence">Relations Presse</a></li>
+              <li><a routerLink="/services/branding">Branding</a></li>
+              <li><a routerLink="/services/digital">Digital & Web</a></li>
             </ul>
           </div>
           
